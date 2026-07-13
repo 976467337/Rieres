@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <x-import component-from-global-scope="image-slot" from="./image-slot.js" hint-size="100,100"></x-import>
+</helmet>
+
+<div style="width:412px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-family:'Inter',sans-serif;">
+    <span style="display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:100px;background:{{ c.badgeBg }};color:{{ c.badgeText }};font-size:12px;font-weight:700;letter-spacing:0.02em;">{{ badgeLabel }}</span>
+    <span style="font-size:12px;font-weight:600;color:{{ c.textMuted }};">{{ variantName }}</span>
+  </div>
+
+  <div style="width:412px;height:892px;border-radius:18px;overflow:hidden;background:{{ c.frameBg }};border:8px solid rgba(120,120,120,0.35);box-shadow:0 30px 80px rgba(0,0,0,0.28);display:flex;flex-direction:column;box-sizing:border-box;position:relative;">
+
+    <div style="height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;background:{{ c.bg }};">
+      <span style="font-size:14px;color:{{ c.text }};font-family:'Inter',sans-serif;">9:30</span>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <div style="width:16px;height:10px;border:1.5px solid {{ c.text }};border-radius:2px;"></div>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow:auto;background:{{ c.bg }};position:relative;">
+
+      <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:56px 28px 28px;height:100%;box-sizing:border-box;font-family:'Inter',sans-serif;">
+          <button onClick="{{ toggleTheme }}" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;cursor:pointer;">{{ themeIcon }}</button>
+
+          <div style="width:140px;height:210px;position:relative;margin-bottom:10px;animation:kiki-bob 2.6s ease-in-out infinite;">
+            <img src="kiki-mascot-nobg.png" alt="Kiki" style="width:100%;height:100%;object-fit:contain;"/>
+          </div>
+
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:{{ c.text }};">Smart Kiki</div>
+          <div style="font-size:14px;color:{{ c.textMuted }};margin-top:4px;margin-bottom:36px;text-align:center;">Seu personal, sempre com você</div>
+
+          <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+            <input placeholder="E-mail" style="width:100%;box-sizing:border-box;padding:14px 16px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;font-family:'Inter',sans-serif;"/>
+            <input placeholder="Senha" type="password" style="width:100%;box-sizing:border-box;padding:14px 16px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;font-family:'Inter',sans-serif;"/>
+          </div>
+
+          <button onClick="{{ enterApp }}" style="width:100%;margin-top:20px;padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Entrar</button>
+
+          <button onClick="{{ togglePendingRole }}" style="margin-top:16px;background:none;border:none;color:{{ c.textMuted }};font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:underline;">{{ pendingRoleLabel }}</button>
+
+          <button onClick="{{ goToSignup }}" style="margin-top:10px;background:none;border:none;color:{{ c.accent }};font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Não tem conta? Criar conta</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:44px 28px 28px;height:100%;box-sizing:border-box;font-family:'Inter',sans-serif;">
+          <button onClick="{{ toggleTheme }}" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;cursor:pointer;">{{ themeIcon }}</button>
+
+          <div style="width:80px;height:120px;position:relative;margin-bottom:14px;box-shadow:none;">
+            <img src="kiki-mascot-nobg.png" alt="Kiki" style="width:100%;height:100%;object-fit:contain;"/>
+          </div>
+
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:{{ c.text }};">Criar sua conta</div>
+          <div style="font-size:13px;color:{{ c.textMuted }};margin-top:4px;margin-bottom:22px;text-align:center;">Comece sua jornada com a Kiki</div>
+
+          <div style="width:100%;display:flex;padding:2px;border-radius:100px;background:{{ c.card }};border:1px solid {{ c.border }};margin-bottom:16px;">
+            <button onClick="{{ setPendingRoleClient }}" style="flex:1;padding:9px 0;border-radius:100px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:{{ c.pendingClientBg }};color:{{ c.pendingClientText }};">Sou aluno(a)</button>
+            <button onClick="{{ setPendingRoleTrainer }}" style="flex:1;padding:9px 0;border-radius:100px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:{{ c.pendingTrainerBg }};color:{{ c.pendingTrainerText }};">Sou personal</button>
+          </div>
+
+          <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+            <input placeholder="Nome completo" style="width:100%;box-sizing:border-box;padding:14px 16px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;font-family:'Inter',sans-serif;"/>
+            <input placeholder="E-mail" style="width:100%;box-sizing:border-box;padding:14px 16px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;font-family:'Inter',sans-serif;"/>
+            <input placeholder="Senha" type="password" style="width:100%;box-sizing:border-box;padding:14px 16px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:15px;font-family:'Inter',sans-serif;"/>
+          </div>
+
+          <button onClick="{{ enterApp }}" style="width:100%;margin-top:20px;padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;">Criar conta</button>
+
+          <button onClick="{{ goToLogin }}" style="margin-top:14px;background:none;border:none;color:{{ c.textMuted }};font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:underline;">Já tenho conta — Entrar</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMain }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;height:100%;font-family:'Inter',sans-serif;">
+
+          <div style="flex-shrink:0;padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid {{ c.border }};background:{{ c.bg }};">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:30px;height:44px;flex-shrink:0;">
+                <img src="kiki-mascot-nobg.png" alt="Kiki" style="width:100%;height:100%;object-fit:contain;object-position:bottom center;"/>
+              </div>
+              <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px;color:{{ c.text }};">Smart Kiki</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button onClick="{{ openNotifications }}" style="position:relative;width:30px;height:30px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{ c.text }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1 1 12 0c0 3.5 1 5 1.5 6H4.5C5 14 6 12.5 6 9z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+                <sc-if value="{{ hasUnreadNotifications }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:3px;right:4px;width:8px;height:8px;border-radius:50%;background:{{ c.accent2 }};border:1.5px solid {{ c.bg }};"></div>
+                </sc-if>
+              </button>
+              <div style="display:flex;padding:2px;border-radius:100px;background:{{ c.card }};border:1px solid {{ c.border }};">
+                <button onClick="{{ setRoleClient }}" style="padding:6px 11px;border-radius:100px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:{{ c.roleClientBg }};color:{{ c.roleClientText }};">Cliente</button>
+                <button onClick="{{ setRoleTrainer }}" style="padding:6px 11px;border-radius:100px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:{{ c.roleTrainerBg }};color:{{ c.roleTrainerText }};">Personal</button>
+              </div>
+              <button onClick="{{ toggleTheme }}" style="width:30px;height:30px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:13px;cursor:pointer;">{{ themeIcon }}</button>
+            </div>
+          </div>
+
+          <div style="flex:1;overflow:auto;position:relative;">
+
+            <sc-if value="{{ isClientHome }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div>
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Olá, Marina</div>
+                  <div style="font-size:13px;color:{{ c.textMuted }};margin-top:2px;">Pronta para o treino de hoje?</div>
+                </div>
+
+                <div style="background:{{ c.accentSoftBg }};border-radius:20px;padding:18px;position:relative;overflow:hidden;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:{{ c.accent }};">Treino de hoje</div>
+                  <div style="font-size:19px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};margin-top:6px;">Treino B — Pernas &amp; Glúteos</div>
+                  <div style="font-size:13px;color:{{ c.textMuted }};margin-top:4px;">5 exercícios · ~42 min</div>
+                  <button onClick="{{ openWorkout }}" style="margin-top:14px;padding:12px 18px;border-radius:12px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:14px;font-weight:700;cursor:pointer;">Iniciar treino</button>
+                </div>
+
+                <div style="display:flex;gap:12px;">
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:22px;font-weight:800;color:{{ c.accent2 }};font-family:'Plus Jakarta Sans',sans-serif;">4</div>
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">dias seguidos</div>
+                  </div>
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:22px;font-weight:800;color:{{ c.accent2 }};font-family:'Plus Jakarta Sans',sans-serif;">3/4</div>
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">treinos na semana</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:10px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;align-items:flex-start;">
+                  <div style="width:28px;height:42px;flex-shrink:0;">
+                    <img src="kiki-mascot-nobg.png" alt="Kiki" style="width:100%;height:100%;object-fit:contain;object-position:bottom center;"/>
+                  </div>
+                  <div style="font-size:13px;color:{{ c.text }};line-height:1.4;">Dica da Kiki: beba água antes do treino — você está a 1 dia de bater seu recorde de sequência!</div>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Próxima sessão</div>
+                  <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="width:40px;height:40px;border-radius:12px;background:{{ c.accentSoftBg }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:{{ c.accent }};">QUI</div>
+                    <div>
+                      <div style="font-size:14px;font-weight:600;color:{{ c.text }};">Avaliação física com Ana</div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">18:00 · Presencial</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isClientMetrics }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Minha evolução</div>
+
+                <div style="background:{{ c.accentSoftBg }};border-radius:18px;padding:16px;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:{{ c.accent }};">Meu objetivo</div>
+                  <div style="font-size:16px;font-weight:800;color:{{ c.text }};margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif;">{{ goal.title }}</div>
+                  <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">Meta: {{ goal.targetWeight }} kg até {{ goal.deadline }}</div>
+                  <div style="height:8px;border-radius:100px;background:{{ c.card }};margin-top:12px;overflow:hidden;">
+                    <div style="height:100%;border-radius:100px;background:{{ c.accent }};width:{{ goal.pct }}%;"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                    <span style="font-size:11px;color:{{ c.textMuted }};">Início: {{ goal.startWeight }} kg</span>
+                    <span style="font-size:11px;font-weight:700;color:{{ c.accent }};">{{ goal.pct }}% da meta</span>
+                    <span style="font-size:11px;color:{{ c.textMuted }};">Meta: {{ goal.targetWeight }} kg</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:2px;">Antes &amp; agora</div>
+                  <div style="font-size:12px;color:{{ c.textMuted }};margin-bottom:8px;">Envie sua foto de hoje para comparar com a primeira e ver sua evolução.</div>
+                  <div style="display:flex;gap:12px;">
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;text-align:center;">
+                      <div style="width:100%;aspect-ratio:3/4;border-radius:12px;overflow:hidden;margin-bottom:8px;">
+                        <image-slot id="evo-before-{{ variantId }}" shape="rect" placeholder="Foto inicial"></image-slot>
+                      </div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Início</div>
+                      <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ goal.startWeight }} kg</div>
+                    </div>
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;text-align:center;">
+                      <div style="width:100%;aspect-ratio:3/4;border-radius:12px;overflow:hidden;margin-bottom:8px;">
+                        <image-slot id="evo-after-{{ variantId }}" shape="rect" placeholder="Foto atual"></image-slot>
+                      </div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Agora</div>
+                      <div style="font-size:15px;font-weight:800;color:{{ c.accent2 }};font-family:'Plus Jakarta Sans',sans-serif;">{{ goal.currentWeight }} kg</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:12px;">
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:12px;color:{{ c.textMuted }};">Peso atual</div>
+                    <div style="font-size:20px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">68.4 kg</div>
+                    <div style="font-size:12px;color:{{ c.accent2 }};font-weight:700;">-2.1 kg</div>
+                  </div>
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:12px;color:{{ c.textMuted }};">Gordura corporal</div>
+                    <div style="font-size:20px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">21.3%</div>
+                    <div style="font-size:12px;color:{{ c.accent2 }};font-weight:700;">-1.4%</div>
+                  </div>
+                </div>
+
+                <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:16px;">
+                  <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:14px;">Peso — últimas 6 semanas</div>
+                  <div style="display:flex;align-items:flex-end;gap:8px;height:110px;">
+                    <sc-for list="{{ weeklyMetrics }}" as="wk" hint-placeholder-count="6">
+                      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;">
+                        <div style="width:100%;max-width:22px;border-radius:6px 6px 0 0;background:{{ c.accent }};height:{{ wk.height }}px;"></div>
+                        <div style="font-size:10px;color:{{ c.textMuted }};">{{ wk.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Medidas</div>
+                  <div style="display:flex;flex-direction:column;gap:1px;background:{{ c.border }};border-radius:16px;overflow:hidden;">
+                    <div style="display:flex;justify-content:space-between;padding:12px 14px;background:{{ c.card }};">
+                      <span style="font-size:13px;color:{{ c.textMuted }};">Cintura</span>
+                      <span style="font-size:13px;font-weight:700;color:{{ c.text }};">74 cm</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:12px 14px;background:{{ c.card }};">
+                      <span style="font-size:13px;color:{{ c.textMuted }};">Quadril</span>
+                      <span style="font-size:13px;font-weight:700;color:{{ c.text }};">98 cm</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:12px 14px;background:{{ c.card }};">
+                      <span style="font-size:13px;color:{{ c.textMuted }};">Braço</span>
+                      <span style="font-size:13px;font-weight:700;color:{{ c.text }};">29 cm</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ chatListOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Conversas</div>
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <sc-for list="{{ chatContacts }}" as="ct" hint-placeholder-count="3">
+                      <button onClick="{{ ct.onOpen }}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;box-sizing:border-box;">
+                        <div style="width:42px;height:42px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-weight:800;font-size:14px;flex-shrink:0;">{{ ct.initials }}</div>
+                        <div style="flex:1;">
+                          <div style="font-size:14px;font-weight:700;color:{{ c.text }};">{{ ct.name }}</div>
+                          <div style="font-size:12px;color:{{ c.textMuted }};">{{ ct.subtitle }}</div>
+                        </div>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ chatConversationOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;height:100%;">
+                <div style="padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid {{ c.border }};flex-shrink:0;">
+                  <button onClick="{{ closeChatConversation }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;padding:0;">←</button>
+                  <div style="width:34px;height:34px;border-radius:50%;background:{{ c.accent }};flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:{{ c.text }};">{{ chatContactName }}</div>
+                    <div style="font-size:11px;color:{{ c.accent2 }};">online</div>
+                  </div>
+                </div>
+                <div style="flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ chatMessages }}" as="msg" hint-placeholder-count="5">
+                    <div style="display:flex;justify-content:{{ msg.justify }};">
+                      <div style="max-width:75%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.4;background:{{ msg.bg }};color:{{ msg.color }};">{{ msg.text }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="flex-shrink:0;padding:10px 12px;display:flex;gap:8px;border-top:1px solid {{ c.border }};">
+                  <input placeholder="Mensagem..." style="flex:1;padding:11px 14px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:13px;font-family:'Inter',sans-serif;"/>
+                  <button style="width:38px;height:38px;border-radius:50%;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:14px;cursor:pointer;">➤</button>
+                </div>
+              </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isNutrition }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Nutrição de hoje</div>
+                  <button onClick="{{ openAddMeal }}" style="padding:9px 14px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:12px;font-weight:700;cursor:pointer;">+ Refeição</button>
+                </div>
+
+                <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:18px;padding:18px;display:flex;align-items:center;gap:18px;">
+                  <div style="width:76px;height:76px;border-radius:50%;flex-shrink:0;background:conic-gradient({{ c.accent }} 0% {{ nutrition.kcalPct }}%, {{ c.border }} {{ nutrition.kcalPct }}% 100%);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:56px;height:56px;border-radius:50%;background:{{ c.card }};display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                      <div style="font-size:14px;font-weight:800;color:{{ c.text }};">{{ nutrition.kcal }}</div>
+                      <div style="font-size:9px;color:{{ c.textMuted }};">de {{ nutrition.kcalGoal }}</div>
+                    </div>
+                  </div>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:{{ c.textMuted }};">Proteína</span><span style="font-weight:700;color:{{ c.text }};">{{ nutrition.protein }}g / {{ nutrition.proteinGoal }}g</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:{{ c.textMuted }};">Carboidrato</span><span style="font-weight:700;color:{{ c.text }};">{{ nutrition.carbs }}g / {{ nutrition.carbsGoal }}g</span></div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:{{ c.textMuted }};">Gordura</span><span style="font-weight:700;color:{{ c.text }};">{{ nutrition.fat }}g / {{ nutrition.fatGoal }}g</span></div>
+                  </div>
+                </div>
+
+                <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:18px;padding:16px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <div style="font-size:13px;font-weight:700;color:{{ c.text }};">Água — {{ nutrition.waterCups }} / {{ nutrition.waterGoal }} copos</div>
+                    <div style="display:flex;gap:8px;">
+                      <button onClick="{{ removeWaterCup }}" style="width:28px;height:28px;border-radius:50%;border:1px solid {{ c.border }};background:none;color:{{ c.text }};font-size:16px;cursor:pointer;line-height:1;">−</button>
+                      <button onClick="{{ addWaterCup }}" style="width:28px;height:28px;border-radius:50%;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:16px;cursor:pointer;line-height:1;">+</button>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <sc-for list="{{ nutrition.waterDrops }}" as="wd" hint-placeholder-count="8">
+                      <div style="width:22px;height:28px;border-radius:0 0 50% 50% / 0 0 60% 60%;background:{{ wd.color }};transform:rotate(180deg);"></div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <sc-for list="{{ meals }}" as="meal" hint-placeholder-count="4">
+                    <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <span style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ meal.name }}</span>
+                        <span style="font-size:12px;color:{{ c.textMuted }};">{{ meal.kcal }} kcal</span>
+                      </div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">{{ meal.items }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isClientAgenda }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Minha agenda</div>
+                  <button onClick="{{ openBooking }}" style="padding:9px 14px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:12px;font-weight:700;cursor:pointer;">+ Agendar</button>
+                </div>
+
+                <sc-if value="{{ hasPendingInvites }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Convites do seu personal</div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                      <sc-for list="{{ pendingInvites }}" as="inv" hint-placeholder-count="1">
+                        <div style="background:{{ c.accentSoftBg }};border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;">
+                          <div>
+                            <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ inv.type }}</div>
+                            <div style="font-size:12px;color:{{ c.textMuted }};">{{ inv.day }} {{ inv.date }} · {{ inv.time }}</div>
+                          </div>
+                          <div style="display:flex;gap:10px;">
+                            <button onClick="{{ inv.onAccept }}" style="flex:1;padding:10px;border-radius:10px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:12px;font-weight:700;cursor:pointer;">Aceitar</button>
+                            <button onClick="{{ inv.onDecline }}" style="flex:1;padding:10px;border-radius:10px;border:1px solid {{ c.border }};background:none;color:{{ c.text }};font-size:12px;font-weight:700;cursor:pointer;">Recusar</button>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ clientSessions }}" as="sess" hint-placeholder-count="2">
+                    <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="width:44px;height:44px;border-radius:12px;background:{{ c.accentSoftBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;">
+                        <span style="font-size:10px;font-weight:800;color:{{ c.accent }};line-height:1;">{{ sess.day }}</span>
+                        <span style="font-size:11px;color:{{ c.textMuted }};line-height:1.3;">{{ sess.date }}</span>
+                      </div>
+                      <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ sess.type }}</div>
+                        <div style="font-size:12px;color:{{ c.textMuted }};">{{ sess.time }} · {{ sess.mode }}</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:2px;">Disponibilidade da Ana</div>
+                  <div style="font-size:12px;color:{{ c.textMuted }};margin-bottom:10px;">Veja os horários em que seu personal está livre para atendimento.</div>
+                  <div style="display:flex;gap:6px;margin-bottom:12px;">
+                    <sc-for list="{{ availabilityDays }}" as="ad" hint-placeholder-count="7">
+                      <button onClick="{{ ad.onSelect }}" style="all:unset;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;border-radius:12px;background:{{ ad.bg }};box-sizing:border-box;">
+                        <span style="font-size:10px;font-weight:700;color:{{ ad.textColor }};">{{ ad.short }}</span>
+                        <span style="font-size:13px;font-weight:800;color:{{ ad.textColor }};">{{ ad.date }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+                    <sc-for list="{{ availabilitySlots }}" as="av" hint-placeholder-count="8">
+                      <div style="padding:9px 4px;border-radius:10px;background:{{ av.bg }};text-align:center;">
+                        <div style="font-size:12px;font-weight:700;color:{{ av.textColor }};">{{ av.time }}</div>
+                        <div style="font-size:9px;color:{{ av.textColor }};margin-top:2px;">{{ av.statusLabel }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isTrainerDashboard }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div>
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Olá, Coach Ana</div>
+                  <div style="font-size:13px;color:{{ c.textMuted }};margin-top:2px;">Você tem 4 sessões hoje</div>
+                </div>
+
+                <div style="display:flex;gap:12px;">
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:22px;font-weight:800;color:{{ c.accent }};font-family:'Plus Jakarta Sans',sans-serif;">18</div>
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">clientes ativos</div>
+                  </div>
+                  <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:22px;font-weight:800;color:{{ c.accent }};font-family:'Plus Jakarta Sans',sans-serif;">4</div>
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">sessões hoje</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Agenda de hoje</div>
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;">
+                      <div style="font-size:12px;font-weight:800;color:{{ c.accent }};width:44px;">09:00</div>
+                      <div style="font-size:13px;color:{{ c.text }};">Marina Souza — Pernas &amp; Glúteos</div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;">
+                      <div style="font-size:12px;font-weight:800;color:{{ c.accent }};width:44px;">11:30</div>
+                      <div style="font-size:13px;color:{{ c.text }};">João Pedro — Avaliação física</div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;">
+                      <div style="font-size:12px;font-weight:800;color:{{ c.accent }};width:44px;">18:00</div>
+                      <div style="font-size:13px;color:{{ c.text }};">Marina Souza — Avaliação física</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:10px;background:{{ c.accentSoftBg }};border-radius:16px;padding:14px;align-items:flex-start;">
+                  <div style="width:28px;height:42px;flex-shrink:0;">
+                    <img src="kiki-mascot-nobg.png" alt="Kiki" style="width:100%;height:100%;object-fit:contain;object-position:bottom center;"/>
+                  </div>
+                  <div style="font-size:13px;color:{{ c.text }};line-height:1.4;">Kiki: 2 clientes estão sem treino atualizado esta semana — dá uma olhada na aba Clientes.</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isTrainerAgenda }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Agenda da semana</div>
+                  <button onClick="{{ openTrainerBooking }}" style="padding:9px 14px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:12px;font-weight:700;cursor:pointer;">+ Agendar</button>
+                </div>
+
+                <div style="display:flex;gap:6px;">
+                  <sc-for list="{{ weekDays }}" as="wd" hint-placeholder-count="7">
+                    <button onClick="{{ wd.onSelect }}" style="all:unset;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;border-radius:12px;background:{{ wd.bg }};box-sizing:border-box;">
+                      <span style="font-size:10px;font-weight:700;color:{{ wd.textColor }};">{{ wd.short }}</span>
+                      <span style="font-size:13px;font-weight:800;color:{{ wd.textColor }};">{{ wd.date }}</span>
+                      <sc-if value="{{ wd.hasSessions }}" hint-placeholder-val="{{ false }}">
+                        <div style="width:5px;height:5px;border-radius:50%;background:{{ wd.dotColor }};"></div>
+                      </sc-if>
+                    </button>
+                  </sc-for>
+                </div>
+
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">{{ selectedDayLabel }}</div>
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <sc-for list="{{ trainerDaySessions }}" as="sess" hint-placeholder-count="2">
+                      <div style="display:flex;gap:12px;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;">
+                        <div style="font-size:12px;font-weight:800;color:{{ c.accent }};width:44px;flex-shrink:0;">{{ sess.time }}</div>
+                        <div style="font-size:13px;color:{{ c.text }};">{{ sess.label }}</div>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ trainerDayEmpty }}" hint-placeholder-val="{{ false }}">
+                      <div style="text-align:center;padding:24px 0;font-size:13px;color:{{ c.textMuted }};">Nenhuma sessão neste dia</div>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isTrainerClients }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ clientDetailOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <button onClick="{{ closeClientDetail }}" style="align-self:flex-start;background:none;border:none;color:{{ c.text }};font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;">← Voltar</button>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:52px;height:52px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-weight:800;font-size:18px;">{{ selectedClient.initials }}</div>
+                    <div>
+                      <div style="font-size:17px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedClient.name }}</div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">{{ selectedClient.plan }}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:12px;">
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Peso</div>
+                      <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">68.4 kg</div>
+                    </div>
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Adesão</div>
+                      <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">86%</div>
+                    </div>
+                  </div>
+                  <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-bottom:4px;">Treino atual</div>
+                    <div style="font-size:14px;font-weight:700;color:{{ c.text }};">{{ selectedClient.workout }}</div>
+                  </div>
+
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                      <div style="font-size:14px;font-weight:700;color:{{ c.text }};">Avaliações físicas</div>
+                      <button onClick="{{ openNewAssessment }}" style="padding:8px 12px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:11px;font-weight:700;cursor:pointer;">+ Nova avaliação</button>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                      <sc-for list="{{ selectedClient.assessments }}" as="asm" hint-placeholder-count="2">
+                        <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
+                          <div>
+                            <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ asm.date }}</div>
+                            <div style="font-size:12px;color:{{ c.textMuted }};">{{ asm.weight }} kg · {{ asm.bodyFat }}% gordura</div>
+                          </div>
+                          <div style="font-size:11px;color:{{ c.textMuted }};text-align:right;">Cintura {{ asm.waist }}cm</div>
+                        </div>
+                      </sc-for>
+                      <sc-if value="{{ selectedClient.noAssessments }}" hint-placeholder-val="{{ false }}">
+                        <div style="text-align:center;padding:16px 0;font-size:12px;color:{{ c.textMuted }};">Nenhuma avaliação registrada ainda</div>
+                      </sc-if>
+                    </div>
+                  </div>
+
+                  <button onClick="{{ goToChatFromClient }}" style="padding:13px;border-radius:12px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:14px;font-weight:700;cursor:pointer;">Enviar mensagem</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ clientListOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Meus clientes</div>
+                    <button onClick="{{ openAddClient }}" style="padding:9px 14px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:12px;font-weight:700;cursor:pointer;">+ Cliente</button>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <sc-for list="{{ clients }}" as="cl" hint-placeholder-count="4">
+                      <button onClick="{{ cl.onOpen }}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px 14px;box-sizing:border-box;">
+                        <div style="width:42px;height:42px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-weight:800;font-size:14px;flex-shrink:0;">{{ cl.initials }}</div>
+                        <div style="flex:1;">
+                          <div style="font-size:14px;font-weight:700;color:{{ c.text }};">{{ cl.name }}</div>
+                          <div style="font-size:12px;color:{{ c.textMuted }};">{{ cl.plan }}</div>
+                        </div>
+                        <sc-if value="{{ cl.flagged }}" hint-placeholder-val="{{ false }}">
+                          <div style="width:8px;height:8px;border-radius:50%;background:{{ c.accent2 }};flex-shrink:0;"></div>
+                        </sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isTrainerLibrary }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ libraryDetailOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <button onClick="{{ closeLibraryDetail }}" style="align-self:flex-start;background:none;border:none;color:{{ c.text }};font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;">← Voltar</button>
+
+                  <sc-if value="{{ selectedLibraryEx.hasVideo }}" hint-placeholder-val="{{ false }}">
+                    <div style="width:100%;aspect-ratio:16/9;border-radius:16px;background:repeating-linear-gradient(45deg,{{ c.card }},{{ c.card }} 10px,{{ c.stripeAlt }} 10px,{{ c.stripeAlt }} 20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid {{ c.border }};">
+                      <div style="width:52px;height:52px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;">
+                        <div style="width:0;height:0;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent {{ c.accentContrast }};margin-left:3px;"></div>
+                      </div>
+                      <span style="font-size:11px;font-weight:700;color:{{ c.text }};background:{{ c.bg }};padding:4px 10px;border-radius:100px;">Vídeo demonstrativo</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ selectedLibraryEx.noVideo }}" hint-placeholder-val="{{ true }}">
+                    <a href="{{ selectedLibraryEx.youtubeSearchUrl }}" target="_blank" rel="noopener" style="text-decoration:none;width:100%;aspect-ratio:16/9;border-radius:16px;background:{{ c.card }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px dashed {{ c.border }};box-sizing:border-box;">
+                      <div style="width:52px;height:36px;border-radius:10px;background:#FF0000;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 13px;border-color:transparent transparent transparent #FFFFFF;margin-left:2px;"></div>
+                      </div>
+                      <span style="font-size:12px;font-weight:700;color:{{ c.text }};text-align:center;padding:0 20px;">Sem vídeo próprio — buscar no YouTube</span>
+                    </a>
+                  </sc-if>
+
+                  <div>
+                    <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedLibraryEx.name }}</div>
+                    <div style="font-size:13px;color:{{ c.textMuted }};margin-top:2px;">{{ selectedLibraryEx.muscleLabel }} · {{ selectedLibraryEx.difficulty }}</div>
+                  </div>
+                  <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-bottom:4px;">Como executar</div>
+                    <div style="font-size:13px;color:{{ c.text }};line-height:1.5;">{{ selectedLibraryEx.instructions }}</div>
+                  </div>
+                  <button onClick="{{ closeLibraryDetail }}" style="padding:14px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:14px;font-weight:700;cursor:pointer;">Adicionar a um treino</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ libraryListOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Biblioteca de exercícios</div>
+                  <input placeholder="Buscar exercício..." style="width:100%;box-sizing:border-box;padding:12px 15px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:13px;font-family:'Inter',sans-serif;"/>
+
+                  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;">
+                    <sc-for list="{{ libraryCategories }}" as="cat" hint-placeholder-count="6">
+                      <button onClick="{{ cat.onSelect }}" style="flex-shrink:0;padding:8px 14px;border-radius:100px;border:1px solid {{ cat.border }};background:{{ cat.bg }};color:{{ cat.textColor }};font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">{{ cat.label }}</button>
+                    </sc-for>
+                  </div>
+
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <sc-for list="{{ libraryExercises }}" as="ex" hint-placeholder-count="6">
+                      <button onClick="{{ ex.onOpen }}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:10px 12px;box-sizing:border-box;">
+                        <div style="width:52px;height:52px;border-radius:12px;background:{{ c.stripeAlt }};flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                          <div style="width:0;height:0;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent {{ c.textMuted }};margin-left:2px;"></div>
+                        </div>
+                        <div style="flex:1;">
+                          <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ ex.name }}</div>
+                          <div style="font-size:11px;color:{{ c.textMuted }};margin-top:2px;">{{ ex.muscleLabel }} · {{ ex.difficulty }}</div>
+                        </div>
+                        <sc-if value="{{ ex.hasVideo }}" hint-placeholder-val="{{ false }}">
+                          <div style="width:7px;height:7px;border-radius:50%;background:{{ c.accent2 }};flex-shrink:0;"></div>
+                        </sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isMarketplace }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ marketplaceDetailOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <button onClick="{{ closeTrainerDetail }}" style="align-self:flex-start;background:none;border:none;color:{{ c.text }};font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;">← Voltar</button>
+
+                  <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+                      <image-slot id="mkt-avatar-{{ variantId }}-{{ selectedTrainer.id }}" shape="circle" placeholder="Foto"></image-slot>
+                    </div>
+                    <div>
+                      <div style="font-size:17px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedTrainer.name }}</div>
+                      <div style="font-size:12px;color:{{ c.textMuted }};">{{ selectedTrainer.specialty }}</div>
+                      <div style="font-size:12px;color:{{ c.accent2 }};font-weight:700;margin-top:2px;">★ {{ selectedTrainer.rating }} · {{ selectedTrainer.reviews }} avaliações</div>
+                    </div>
+                  </div>
+
+                  <div style="background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-bottom:4px;">Sobre</div>
+                    <div style="font-size:13px;color:{{ c.text }};line-height:1.5;">{{ selectedTrainer.bio }}</div>
+                  </div>
+
+                  <div style="display:flex;gap:12px;">
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Preço/mês</div>
+                      <div style="font-size:16px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedTrainer.price }}</div>
+                    </div>
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Modalidade</div>
+                      <div style="font-size:16px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedTrainer.mode }}</div>
+                    </div>
+                  </div>
+
+                  <button onClick="{{ selectedTrainer.onRequest }}" disabled="{{ selectedTrainer.requested }}" style="padding:15px;border-radius:14px;border:none;background:{{ selectedTrainer.requestBg }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:{{ selectedTrainer.requestCursor }};">{{ selectedTrainer.requestLabel }}</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ marketplaceListOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Encontre um personal</div>
+                  <input placeholder="Buscar por nome ou especialidade..." style="width:100%;box-sizing:border-box;padding:12px 15px;border-radius:100px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:13px;font-family:'Inter',sans-serif;"/>
+
+                  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;">
+                    <sc-for list="{{ marketplaceCategories }}" as="cat" hint-placeholder-count="5">
+                      <button onClick="{{ cat.onSelect }}" style="flex-shrink:0;padding:8px 14px;border-radius:100px;border:1px solid {{ cat.border }};background:{{ cat.bg }};color:{{ cat.textColor }};font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">{{ cat.label }}</button>
+                    </sc-for>
+                  </div>
+
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <sc-for list="{{ marketplaceTrainers }}" as="tr" hint-placeholder-count="4">
+                      <button onClick="{{ tr.onOpen }}" style="all:unset;cursor:pointer;display:flex;gap:12px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:12px;box-sizing:border-box;">
+                        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+                          <image-slot id="mkt-avatar-{{ variantId }}-{{ tr.id }}" shape="circle" placeholder="Foto"></image-slot>
+                        </div>
+                        <div style="flex:1;">
+                          <div style="font-size:14px;font-weight:700;color:{{ c.text }};">{{ tr.name }}</div>
+                          <div style="font-size:12px;color:{{ c.textMuted }};margin-top:1px;">{{ tr.specialty }}</div>
+                          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+                            <span style="font-size:12px;color:{{ c.accent2 }};font-weight:700;">★ {{ tr.rating }}</span>
+                            <span style="font-size:12px;font-weight:700;color:{{ c.text }};">{{ tr.price }}</span>
+                          </div>
+                        </div>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isChallenges }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ challengeDetailOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <button onClick="{{ closeChallengeDetail }}" style="align-self:flex-start;background:none;border:none;color:{{ c.text }};font-size:14px;font-weight:600;cursor:pointer;padding:6px 0;">← Voltar</button>
+
+                  <div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                      <span style="font-size:10px;font-weight:700;color:{{ c.textMuted }};text-transform:uppercase;letter-spacing:0.04em;">{{ selectedChallenge.type }}</span>
+                      <sc-if value="{{ selectedChallenge.completed }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:10px;font-weight:700;color:{{ c.accent }};">🏆 Concluído</span>
+                      </sc-if>
+                    </div>
+                    <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedChallenge.title }}</div>
+                    <div style="font-size:13px;color:{{ c.textMuted }};margin-top:4px;">{{ selectedChallenge.description }}</div>
+                  </div>
+
+                  <div style="display:flex;gap:12px;">
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Participantes</div>
+                      <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedChallenge.participants }}</div>
+                    </div>
+                    <div style="flex:1;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                      <div style="font-size:12px;color:{{ c.textMuted }};">Termina em</div>
+                      <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ selectedChallenge.daysLeft }} dias</div>
+                    </div>
+                  </div>
+
+                  <div style="background:{{ c.accentSoftBg }};border-radius:16px;padding:14px;display:flex;gap:10px;align-items:center;">
+                    <span style="font-size:22px;">🎖️</span>
+                    <div>
+                      <div style="font-size:11px;font-weight:700;color:{{ c.accent }};text-transform:uppercase;letter-spacing:0.04em;">Recompensa</div>
+                      <div style="font-size:13px;font-weight:600;color:{{ c.text }};">{{ selectedChallenge.reward }}</div>
+                    </div>
+                  </div>
+
+                  <sc-if value="{{ selectedChallenge.joined }}" hint-placeholder-val="{{ false }}">
+                    <div style="background:{{ c.accentSoftBg }};border-radius:16px;padding:14px;">
+                      <div style="display:flex;justify-content:space-between;font-size:12px;color:{{ c.textMuted }};margin-bottom:6px;"><span>Seu progresso</span><span style="font-weight:700;color:{{ c.accent }};">{{ selectedChallenge.progressLabel }}</span></div>
+                      <div style="height:8px;border-radius:100px;background:{{ c.card }};overflow:hidden;">
+                        <div style="height:100%;border-radius:100px;background:{{ c.accent }};width:{{ selectedChallenge.progressPct }}%;"></div>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Ranking</div>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                      <sc-for list="{{ selectedChallenge.leaderboard }}" as="lb" hint-placeholder-count="5">
+                        <div style="display:flex;align-items:center;gap:10px;background:{{ lb.rowBg }};border:1px solid {{ c.border }};border-radius:14px;padding:10px 12px;">
+                          <div style="width:22px;font-size:13px;font-weight:800;color:{{ c.textMuted }};text-align:center;">{{ lb.rank }}</div>
+                          <div style="width:32px;height:32px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-weight:800;font-size:12px;flex-shrink:0;">{{ lb.initials }}</div>
+                          <div style="flex:1;font-size:13px;font-weight:600;color:{{ c.text }};">{{ lb.name }}</div>
+                          <div style="font-size:13px;font-weight:800;color:{{ c.text }};">{{ lb.score }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <button onClick="{{ selectedChallenge.onToggleJoin }}" style="padding:14px;border-radius:14px;border:none;background:{{ selectedChallenge.joinBg }};color:{{ c.accentContrast }};font-size:14px;font-weight:800;cursor:pointer;">{{ selectedChallenge.joinLabel }}</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ challengeListOpen }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:16px;">
+                  <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Desafios em grupo</div>
+
+                  <div style="display:flex;gap:8px;">
+                    <sc-for list="{{ challengeFilters }}" as="cf" hint-placeholder-count="2">
+                      <button onClick="{{ cf.onSelect }}" style="flex-shrink:0;padding:8px 14px;border-radius:100px;border:1px solid {{ cf.border }};background:{{ cf.bg }};color:{{ cf.textColor }};font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">{{ cf.label }}</button>
+                    </sc-for>
+                  </div>
+
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <sc-for list="{{ challenges }}" as="ch" hint-placeholder-count="3">
+                      <button onClick="{{ ch.onOpen }}" style="all:unset;cursor:pointer;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:18px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                          <div style="display:flex;flex-direction:column;gap:4px;">
+                            <span style="font-size:10px;font-weight:700;color:{{ c.textMuted }};text-transform:uppercase;letter-spacing:0.04em;">{{ ch.type }}</span>
+                            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;text-align:left;">{{ ch.title }}</div>
+                          </div>
+                          <span style="font-size:10px;font-weight:700;color:{{ c.accent }};background:{{ c.accentSoftBg }};padding:4px 8px;border-radius:100px;flex-shrink:0;">{{ ch.daysLeft }}d</span>
+                        </div>
+                        <div style="font-size:12px;color:{{ c.textMuted }};text-align:left;">{{ ch.description }}</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                          <span style="font-size:12px;color:{{ c.textMuted }};">{{ ch.participants }} participantes</span>
+                          <span style="font-size:12px;font-weight:700;color:{{ ch.statusColor }};">{{ ch.statusLabel }}</span>
+                        </div>
+                        <sc-if value="{{ ch.joined }}" hint-placeholder-val="{{ false }}">
+                          <div style="height:6px;border-radius:100px;background:{{ c.bg }};overflow:hidden;">
+                            <div style="height:100%;border-radius:100px;background:{{ ch.barColor }};width:{{ ch.progressPct }}%;"></div>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ ch.completed }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;align-items:center;gap:6px;background:{{ c.accentSoftBg }};border-radius:100px;padding:6px 10px;align-self:flex-start;">
+                            <span style="font-size:14px;">🏆</span>
+                            <span style="font-size:11px;font-weight:700;color:{{ c.accent }};">Concluído!</span>
+                          </div>
+                        </sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 16px 24px;display:flex;flex-direction:column;gap:18px;">
+                <div style="font-size:20px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:{{ c.text }};">Meu perfil</div>
+
+                <div style="display:flex;align-items:center;gap:14px;">
+                  <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+                    <image-slot id="profile-avatar-{{ variantId }}-{{ profileRoleKey }}" shape="circle" placeholder="Foto"></image-slot>
+                  </div>
+                  <div>
+                    <div style="font-size:16px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ profileName }}</div>
+                    <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">{{ profileTagline }}</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <div>
+                    <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Nome</div>
+                    <input value="{{ profileName }}" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">E-mail</div>
+                    <input value="{{ profileEmail }}" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Telefone</div>
+                    <input value="{{ profilePhone }}" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+                  </div>
+                </div>
+
+                <div style="background:{{ c.accentSoftBg }};border-radius:16px;padding:14px;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:{{ c.accent }};">{{ profilePlanLabel }}</div>
+                  <div style="font-size:14px;font-weight:700;color:{{ c.text }};margin-top:4px;">{{ profilePlanDetail }}</div>
+                </div>
+
+                <button onClick="{{ openBilling }}" style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:14px;border:1px solid {{ c.border }};background:{{ c.card }};cursor:pointer;">
+                  <span style="font-size:14px;font-weight:700;color:{{ c.text }};">Pagamentos e assinatura</span>
+                  <span style="color:{{ c.textMuted }};font-size:16px;">›</span>
+                </button>
+
+                <button onClick="{{ logout }}" style="padding:14px;border-radius:14px;border:1px solid {{ c.border }};background:none;color:{{ c.text }};font-size:14px;font-weight:700;cursor:pointer;">Sair da conta</button>
+              </div>
+            </sc-if>
+
+          </div>
+
+          <div style="flex-shrink:0;display:flex;border-top:1px solid {{ c.border }};background:{{ c.bg }};padding-bottom:4px;">
+            <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+              <button onClick="{{ tab.onClick }}" style="flex:1;padding:10px 4px 8px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;opacity:{{ tab.opacity }};">
+
+                <sc-if value="{{ tab.isDark }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="{{ tab.iconColor }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ tab.iconPath }}"></path></svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isHome }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path d="M3 11 12 4l9 7" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 10.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9.5" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.4" stroke-linejoin="round"/>
+                    <rect x="10" y="14" width="4" height="7" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.2"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isMetrics }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <rect x="4" y="12" width="4" height="8" rx="1" fill="#38BDF8"/>
+                    <rect x="10" y="7" width="4" height="13" rx="1" fill="#22C55E"/>
+                    <rect x="16" y="3" width="4" height="17" rx="1" fill="#F472B6"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isChat }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4.5 4V6a1 1 0 0 1 1-1z" fill="#CBD5F5" stroke="#6366F1" stroke-width="1.3" stroke-linejoin="round"/>
+                    <circle cx="9" cy="11" r="1.1" fill="#6366F1"/>
+                    <circle cx="13" cy="11" r="1.1" fill="#6366F1"/>
+                    <circle cx="17" cy="11" r="1.1" fill="#6366F1"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isNutrition }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path d="M12 21c-4.2-2-7.5-5.7-7.5-10.2A4.8 4.8 0 0 1 12 6.4a4.8 4.8 0 0 1 7.5 4.4c0 4.5-3.3 8.2-7.5 10.2z" fill="#86EFAC" stroke="#16A34A" stroke-width="1.3"/>
+                    <path d="M12 6.4V3.4" stroke="#7C4A26" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M9.6 3.7c1 .5 1.5 1.4 1.6 2.5" fill="none" stroke="#16A34A" stroke-width="1.3" stroke-linecap="round"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isDashboard }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.5" fill="#38BDF8"/>
+                    <rect x="13" y="3.5" width="7.5" height="7.5" rx="1.5" fill="#22C55E"/>
+                    <rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5" fill="#F59E0B"/>
+                    <rect x="13" y="13" width="7.5" height="7.5" rx="1.5" fill="#8B5CF6"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isClients }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <circle cx="9" cy="8" r="3" fill="#FBCFE8" stroke="#DB2777" stroke-width="1.2"/>
+                    <path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" fill="#FBCFE8" stroke="#DB2777" stroke-width="1.2"/>
+                    <circle cx="17" cy="7.5" r="2.3" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.1"/>
+                    <path d="M15 14.5c2.2.3 4.7 1.9 4.9 5" fill="none" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isAgenda }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="#FFFFFF" stroke="#EA580C" stroke-width="1.4"/>
+                    <rect x="3.5" y="5" width="17" height="4.5" rx="2" fill="#FDBA74"/>
+                    <path d="M8 3.5v3.5 M16 3.5v3.5" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round"/>
+                    <circle cx="8.3" cy="14" r="1.3" fill="#EA580C"/>
+                    <circle cx="12" cy="14" r="1.3" fill="#EA580C"/>
+                    <circle cx="8.3" cy="17.2" r="1.3" fill="#FDBA74"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isProfile }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <circle cx="12" cy="8.5" r="4" fill="#DDD6FE" stroke="#7C3AED" stroke-width="1.3"/>
+                    <path d="M4 20c0-4 3.5-6.5 8-6.5s8 2.5 8 6.5" fill="#DDD6FE" stroke="#7C3AED" stroke-width="1.3"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isLibrary }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <rect x="3.5" y="4" width="5" height="17" rx="1" fill="#93C5FD" stroke="#2563EB" stroke-width="1.1"/>
+                    <rect x="9.5" y="3" width="5" height="18" rx="1" fill="#6EE7B7" stroke="#059669" stroke-width="1.1"/>
+                    <rect x="15.5" y="5" width="5" height="16" rx="1" fill="#FDBA74" stroke="#EA580C" stroke-width="1.1"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isMarketplace }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <circle cx="10.5" cy="10.5" r="6.5" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.6"/>
+                    <path d="M15.5 15.5 20 20" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </sc-if>
+
+                <sc-if value="{{ tab.isChallenges }}" hint-placeholder-val="{{ false }}">
+                  <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path d="M7 3h10v6a5 5 0 0 1-10 0z" fill="#FDE68A" stroke="#D97706" stroke-width="1.3"/>
+                    <path d="M7 5H4v2a3 3 0 0 0 3 3 M17 5h3v2a3 3 0 0 1-3 3" fill="none" stroke="#D97706" stroke-width="1.3" stroke-linecap="round"/>
+                    <path d="M12 14v3 M9 20h6 M10 17h4v3h-4z" fill="#FDE68A" stroke="#D97706" stroke-width="1.3" stroke-linejoin="round"/>
+                  </svg>
+                </sc-if>
+
+                <span style="font-size:10px;font-weight:700;color:{{ tab.textColor }};">{{ tab.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ workoutOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeWorkout }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Treino B — Pernas &amp; Glúteos</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px;">
+            <sc-if value="{{ currentExercise.hasVideo }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;aspect-ratio:16/9;border-radius:16px;background:repeating-linear-gradient(45deg,{{ c.card }},{{ c.card }} 10px,{{ c.stripeAlt }} 10px,{{ c.stripeAlt }} 20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid {{ c.border }};position:relative;">
+                <div style="width:52px;height:52px;border-radius:50%;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;">
+                  <div style="width:0;height:0;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent {{ c.accentContrast }};margin-left:3px;"></div>
+                </div>
+                <span style="font-size:11px;font-weight:700;color:{{ c.text }};background:{{ c.bg }};padding:4px 10px;border-radius:100px;">Vídeo enviado pelo personal</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ currentExercise.noVideo }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ currentExercise.youtubeSearchUrl }}" target="_blank" rel="noopener" style="text-decoration:none;width:100%;aspect-ratio:16/9;border-radius:16px;background:{{ c.card }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px dashed {{ c.border }};box-sizing:border-box;">
+                <div style="width:52px;height:36px;border-radius:10px;background:#FF0000;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 13px;border-color:transparent transparent transparent #FFFFFF;margin-left:2px;"></div>
+                </div>
+                <span style="font-size:12px;font-weight:700;color:{{ c.text }};text-align:center;padding:0 20px;">Personal não enviou vídeo — buscar "{{ currentExercise.name }}" no YouTube</span>
+              </a>
+            </sc-if>
+
+            <div>
+              <div style="font-size:18px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ currentExercise.name }}</div>
+              <div style="font-size:13px;color:{{ c.textMuted }};margin-top:2px;">{{ currentExercise.detail }}</div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:18px;padding:20px;">
+              <div style="font-size:40px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums;">{{ formattedTimer }}</div>
+              <div style="display:flex;gap:12px;">
+                <button onClick="{{ toggleTimer }}" style="padding:12px 26px;border-radius:100px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:14px;font-weight:700;cursor:pointer;">{{ timerButtonLabel }}</button>
+                <button onClick="{{ resetTimer }}" style="padding:12px 20px;border-radius:100px;border:1px solid {{ c.border }};background:none;color:{{ c.text }};font-size:14px;font-weight:700;cursor:pointer;">Zerar</button>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Exercícios do treino</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ exercises }}" as="ex" hint-placeholder-count="5">
+                  <button onClick="{{ ex.onSelect }}" style="all:unset;cursor:pointer;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:{{ ex.rowBg }};border:1px solid {{ c.border }};">
+                    <div onClick="{{ ex.onToggleDone }}" style="width:22px;height:22px;border-radius:7px;border:2px solid {{ ex.checkBorder }};background:{{ ex.checkBg }};flex-shrink:0;display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-size:12px;font-weight:800;">{{ ex.checkMark }}</div>
+                    <div style="flex:1;">
+                      <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ ex.name }}</div>
+                      <div style="font-size:11px;color:{{ c.textMuted }};">{{ ex.detail }}</div>
+                    </div>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <button onClick="{{ closeWorkout }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent2 }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Concluir treino</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ bookingOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeBooking }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Agendar horário</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:18px;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:10px;">Escolha o dia</div>
+              <div style="display:flex;gap:6px;">
+                <sc-for list="{{ bookingDays }}" as="bd" hint-placeholder-count="7">
+                  <button onClick="{{ bd.onSelect }}" style="all:unset;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;border-radius:12px;background:{{ bd.bg }};box-sizing:border-box;">
+                    <span style="font-size:10px;font-weight:700;color:{{ bd.textColor }};">{{ bd.short }}</span>
+                    <span style="font-size:13px;font-weight:800;color:{{ bd.textColor }};">{{ bd.date }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:10px;">Horários disponíveis com Ana</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                <sc-for list="{{ bookingSlots }}" as="slot" hint-placeholder-count="8">
+                  <button onClick="{{ slot.onSelect }}" disabled="{{ slot.disabled }}" style="padding:12px 4px;border-radius:12px;border:1px solid {{ slot.border }};background:{{ slot.bg }};color:{{ slot.textColor }};font-size:13px;font-weight:700;cursor:{{ slot.cursor }};font-family:'Inter',sans-serif;">{{ slot.time }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ hasSelectedSlot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ confirmBooking }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Confirmar agendamento — {{ selectedSlotLabel }}</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ trainerBookingOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeTrainerBooking }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Agendar com cliente</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:18px;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:10px;">Escolha o cliente</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ trainerBookingClients }}" as="cl" hint-placeholder-count="4">
+                  <button onClick="{{ cl.onSelect }}" style="all:unset;cursor:pointer;padding:11px 14px;border-radius:12px;border:1px solid {{ cl.border }};background:{{ cl.bg }};color:{{ cl.textColor }};font-size:13px;font-weight:700;box-sizing:border-box;">{{ cl.name }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:10px;">Escolha o dia</div>
+              <div style="display:flex;gap:6px;">
+                <sc-for list="{{ trainerBookingDays }}" as="bd" hint-placeholder-count="7">
+                  <button onClick="{{ bd.onSelect }}" style="all:unset;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0;border-radius:12px;background:{{ bd.bg }};box-sizing:border-box;">
+                    <span style="font-size:10px;font-weight:700;color:{{ bd.textColor }};">{{ bd.short }}</span>
+                    <span style="font-size:13px;font-weight:800;color:{{ bd.textColor }};">{{ bd.date }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:10px;">Horário</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                <sc-for list="{{ trainerBookingSlots }}" as="slot" hint-placeholder-count="8">
+                  <button onClick="{{ slot.onSelect }}" disabled="{{ slot.disabled }}" style="padding:12px 4px;border-radius:12px;border:1px solid {{ slot.border }};background:{{ slot.bg }};color:{{ slot.textColor }};font-size:13px;font-weight:700;cursor:{{ slot.cursor }};font-family:'Inter',sans-serif;">{{ slot.time }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ hasSelectedTrainerSlot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ confirmTrainerBooking }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Enviar convite — {{ selectedTrainerSlotLabel }}</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ addClientOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeAddClient }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Adicionar cliente</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:18px;">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Nome completo</div>
+                <input value="{{ newClientName }}" onChange="{{ onNewClientNameChange }}" placeholder="Nome do cliente" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">E-mail</div>
+                <input value="{{ newClientEmail }}" onChange="{{ onNewClientEmailChange }}" placeholder="email@exemplo.com" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">Plano</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ newClientPlans }}" as="pl" hint-placeholder-count="3">
+                  <button onClick="{{ pl.onSelect }}" style="all:unset;cursor:pointer;padding:12px 14px;border-radius:12px;border:1px solid {{ pl.border }};background:{{ pl.bg }};color:{{ pl.textColor }};font-size:13px;font-weight:700;box-sizing:border-box;">{{ pl.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <button onClick="{{ confirmAddClient }}" disabled="{{ !canConfirmAddClient }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Cadastrar cliente</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ newAssessmentOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeNewAssessment }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Avaliação física — {{ selectedClient.name }}</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Peso (kg)</div>
+                <input value="{{ newAssessmentWeight }}" onChange="{{ onAssessmentWeightChange }}" placeholder="68.4" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Gordura (%)</div>
+                <input value="{{ newAssessmentBodyFat }}" onChange="{{ onAssessmentBodyFatChange }}" placeholder="21.3" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:12px;">
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Cintura (cm)</div>
+                <input value="{{ newAssessmentWaist }}" onChange="{{ onAssessmentWaistChange }}" placeholder="74" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Quadril (cm)</div>
+                <input value="{{ newAssessmentHip }}" onChange="{{ onAssessmentHipChange }}" placeholder="98" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Observações</div>
+              <textarea value="{{ newAssessmentNotes }}" onChange="{{ onAssessmentNotesChange }}" placeholder="Evolução observada, orientações, próximos passos..." style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;min-height:90px;resize:vertical;"></textarea>
+            </div>
+
+            <button onClick="{{ confirmNewAssessment }}" disabled="{{ !canConfirmAssessment }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Salvar avaliação</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ addMealOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeAddMeal }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Registrar refeição</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Nome da refeição</div>
+              <input value="{{ newMealName }}" onChange="{{ onNewMealNameChange }}" placeholder="Ex: Lanche da tarde" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Calorias (kcal)</div>
+              <input value="{{ newMealKcal }}" onChange="{{ onNewMealKcalChange }}" placeholder="320" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:{{ c.textMuted }};margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;">Itens</div>
+              <input value="{{ newMealItems }}" onChange="{{ onNewMealItemsChange }}" placeholder="Ex: Iogurte, granola, mel" style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1px solid {{ c.border }};background:{{ c.card }};color:{{ c.text }};font-size:14px;font-family:'Inter',sans-serif;"/>
+            </div>
+
+            <button onClick="{{ confirmAddMeal }}" disabled="{{ !canConfirmAddMeal }}" style="padding:15px;border-radius:14px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:15px;font-weight:800;cursor:pointer;">Adicionar refeição</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ notificationsOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid {{ c.border }};">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <button onClick="{{ closeNotifications }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+              <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Notificações</div>
+            </div>
+            <sc-if value="{{ hasUnreadNotifications }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ markAllNotificationsRead }}" style="background:none;border:none;color:{{ c.accent }};font-size:12px;font-weight:700;cursor:pointer;">Marcar todas como lidas</button>
+            </sc-if>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ notifications }}" as="nt" hint-placeholder-count="5">
+              <div style="display:flex;gap:12px;align-items:flex-start;background:{{ nt.bg }};border:1px solid {{ c.border }};border-radius:16px;padding:13px 14px;">
+                <span style="font-size:20px;flex-shrink:0;">{{ nt.icon }}</span>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;color:{{ c.text }};">{{ nt.title }}</div>
+                  <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">{{ nt.description }}</div>
+                  <div style="font-size:11px;color:{{ c.textMuted }};margin-top:6px;">{{ nt.time }}</div>
+                </div>
+                <sc-if value="{{ nt.unread }}" hint-placeholder-val="{{ false }}">
+                  <div style="width:8px;height:8px;border-radius:50%;background:{{ c.accent2 }};flex-shrink:0;margin-top:4px;"></div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noNotifications }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:40px 0;font-size:13px;color:{{ c.textMuted }};">Nenhuma notificação por aqui</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ billingOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;background:{{ c.bg }};display:flex;flex-direction:column;font-family:'Inter',sans-serif;z-index:10;">
+          <div style="flex-shrink:0;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid {{ c.border }};">
+            <button onClick="{{ closeBilling }}" style="background:none;border:none;color:{{ c.text }};font-size:18px;cursor:pointer;">←</button>
+            <div style="font-size:15px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">Pagamentos e assinatura</div>
+          </div>
+
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:18px;">
+            <div style="background:{{ c.accentSoftBg }};border-radius:18px;padding:16px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:{{ c.accent }};">Plano atual</div>
+              <div style="font-size:17px;font-weight:800;color:{{ c.text }};margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif;">{{ billing.currentPlanName }}</div>
+              <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">{{ billing.currentPlanPrice }} · próxima cobrança em {{ billing.nextBillingDate }}</div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Forma de pagamento</div>
+              <div style="display:flex;align-items:center;gap:12px;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:16px;padding:14px;">
+                <div style="width:40px;height:28px;border-radius:6px;background:{{ c.accent }};display:flex;align-items:center;justify-content:center;color:{{ c.accentContrast }};font-size:10px;font-weight:800;">VISA</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;color:{{ c.text }};">•••• 4242</div>
+                  <div style="font-size:11px;color:{{ c.textMuted }};">Expira 08/29</div>
+                </div>
+                <span style="font-size:12px;color:{{ c.accent }};font-weight:700;">Alterar</span>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Planos disponíveis</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <sc-for list="{{ billing.plans }}" as="pl" hint-placeholder-count="3">
+                  <div style="background:{{ pl.bg }};border:1px solid {{ pl.border }};border-radius:16px;padding:14px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                      <div>
+                        <div style="font-size:14px;font-weight:800;color:{{ c.text }};font-family:'Plus Jakarta Sans',sans-serif;">{{ pl.name }}</div>
+                        <div style="font-size:12px;color:{{ c.textMuted }};margin-top:2px;">{{ pl.description }}</div>
+                      </div>
+                      <div style="font-size:14px;font-weight:800;color:{{ c.text }};white-space:nowrap;">{{ pl.price }}</div>
+                    </div>
+                    <sc-if value="{{ pl.isCurrent }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:10px;font-size:12px;font-weight:700;color:{{ c.accent }};">Plano atual</div>
+                    </sc-if>
+                    <sc-if value="{{ pl.canSelect }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ pl.onSelect }}" style="margin-top:10px;width:100%;padding:11px;border-radius:10px;border:none;background:{{ c.accent }};color:{{ c.accentContrast }};font-size:13px;font-weight:700;cursor:pointer;">Mudar para este plano</button>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:13px;font-weight:700;color:{{ c.text }};margin-bottom:8px;">Histórico de cobranças</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ billing.history }}" as="hi" hint-placeholder-count="3">
+                  <div style="display:flex;justify-content:space-between;align-items:center;background:{{ c.card }};border:1px solid {{ c.border }};border-radius:12px;padding:11px 14px;">
+                    <div>
+                      <div style="font-size:12px;font-weight:600;color:{{ c.text }};">{{ hi.date }}</div>
+                      <div style="font-size:11px;color:{{ c.textMuted }};">{{ hi.description }}</div>
+                    </div>
+                    <div style="font-size:12px;font-weight:700;color:{{ c.text }};">{{ hi.amount }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <div style="height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:{{ c.bg }};">
+      <div style="width:108px;height:4px;border-radius:2px;background:{{ c.text }};opacity:0.35;"></div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+class Component extends DCLogic {
+  state = {
+    theme: 'dark',
+    pendingRole: 'client',
+    role: 'client',
+    screen: 'login',
+    clientTab: 'home',
+    trainerTab: 'dashboard',
+    workoutOpen: false,
+    currentExerciseIndex: 0,
+    completed: {},
+    timerSeconds: 0,
+    timerRunning: false,
+    clientDetailOpen: false,
+    selectedClientIndex: 0,
+    bookingOpen: false,
+    bookingDayIndex: 0,
+    bookingSlotKey: null,
+    agendaDayIndex: 3,
+    availabilityDayIndex: 3,
+    libraryCategory: 'all',
+    libraryDetailOpen: false,
+    selectedLibraryIndex: 0,
+    trainerBookingOpen: false,
+    trainerBookingClientIndex: 0,
+    trainerBookingDayIndex: 3,
+    trainerBookingSlotKey: null,
+    marketplaceCategory: 'all',
+    marketplaceDetailOpen: false,
+    selectedTrainerId: 1,
+    challengeDetailOpen: false,
+    selectedChallengeId: 1,
+    joinedChallengeIds: [1],
+    chatConversationOpen: false,
+    activeClientTrainerId: null,
+    activeTrainerClientIndex: null,
+    challengeFilter: 'all',
+    addClientOpen: false,
+    newClientName: '',
+    newClientEmail: '',
+    newClientPlan: 'Plano Básico',
+    extraClients: [],
+    assessmentsByClient: {
+      0: [{ date: '10/06/2026', weight: '70.5', bodyFat: '23.4', waist: '76', hip: '99', notes: 'Primeira avaliação.' }],
+    },
+    newAssessmentOpen: false,
+    newAssessmentWeight: '',
+    newAssessmentBodyFat: '',
+    newAssessmentWaist: '',
+    newAssessmentHip: '',
+    newAssessmentNotes: '',
+    waterCups: 5,
+    extraMeals: [],
+    addMealOpen: false,
+    newMealName: '',
+    newMealKcal: '',
+    newMealItems: '',
+    notificationsOpen: false,
+    readNotificationIds: [],
+    billingOpen: false,
+    selectedPlanKey: null,
+    requestedTrainerIds: [],
+    bookedSlots: { 0: ['08:00', '18:00'], 3: ['09:00', '18:00'], 4: ['07:00'] },
+    invites: [
+      { id: 1, clientName: 'Marina Souza', dayIndex: 4, day: 'Sex', date: '19/07', time: '10:00', type: 'Treino acompanhado', status: 'pending' },
+    ],
+    clientSessions: [
+      { day: 'QUI', date: '18/07', time: '18:00', type: 'Avaliação física', mode: 'Presencial' },
+      { day: 'SEG', date: '22/07', time: '07:00', type: 'Treino acompanhado', mode: 'Online' },
+    ],
+  };
+
+  EXERCISES = [
+    { name: 'Agachamento livre', detail: '4 séries × 12 reps · 40kg', videoUrl: 'uploaded' },
+    { name: 'Cadeira extensora', detail: '3 séries × 15 reps · 30kg', videoUrl: null },
+    { name: 'Elevação pélvica', detail: '4 séries × 12 reps · 50kg', videoUrl: 'uploaded' },
+    { name: 'Cadeira flexora', detail: '3 séries × 15 reps · 25kg', videoUrl: null },
+    { name: 'Panturrilha em pé', detail: '4 séries × 20 reps · 35kg', videoUrl: null },
+  ];
+
+  GOAL = { title: 'Perder gordura e definir pernas', startWeight: 72.0, currentWeight: 68.4, targetWeight: 63.0, deadline: 'Dezembro/2026' };
+
+  EXERCISE_LIBRARY = [
+    { name: 'Agachamento livre', muscle: 'legs', muscleLabel: 'Pernas', difficulty: 'Intermediário', hasVideo: true, instructions: 'Pés na largura dos ombros, desça flexionando joelhos e quadril mantendo a coluna neutra, até coxas paralelas ao solo.' },
+    { name: 'Supino reto', muscle: 'chest', muscleLabel: 'Peito', difficulty: 'Intermediário', hasVideo: true, instructions: 'Deitado no banco, desça a barra até o peito controladamente e empurre de volta sem travar os cotovelos.' },
+    { name: 'Puxada frontal', muscle: 'back', muscleLabel: 'Costas', difficulty: 'Iniciante', hasVideo: false, instructions: 'Segure a barra acima da cabeça, puxe até a altura do peito contraindo as escápulas, controle a subida.' },
+    { name: 'Elevação lateral', muscle: 'shoulders', muscleLabel: 'Ombros', difficulty: 'Iniciante', hasVideo: false, instructions: 'Com halteres, eleve os braços lateralmente até a altura dos ombros, cotovelos levemente flexionados.' },
+    { name: 'Rosca direta', muscle: 'arms', muscleLabel: 'Braços', difficulty: 'Iniciante', hasVideo: true, instructions: 'Cotovelos fixos ao lado do corpo, flexione levando a barra até a altura do ombro e desça controlado.' },
+    { name: 'Prancha isométrica', muscle: 'core', muscleLabel: 'Core', difficulty: 'Iniciante', hasVideo: false, instructions: 'Apoie antebraços e pés no solo, mantenha o corpo alinhado e o abdômen contraído pelo tempo determinado.' },
+    { name: 'Elevação pélvica', muscle: 'legs', muscleLabel: 'Pernas', difficulty: 'Intermediário', hasVideo: true, instructions: 'Deitado, pés apoiados no solo, eleve o quadril contraindo os glúteos no topo do movimento.' },
+    { name: 'Corrida na esteira', muscle: 'cardio', muscleLabel: 'Cardio', difficulty: 'Todos os níveis', hasVideo: false, instructions: 'Mantenha ritmo constante, postura ereta e braços relaxados durante todo o percurso.' },
+  ];
+
+  LIBRARY_CATEGORIES = [
+    { key: 'all', label: 'Todos' },
+    { key: 'legs', label: 'Pernas' },
+    { key: 'chest', label: 'Peito' },
+    { key: 'back', label: 'Costas' },
+    { key: 'shoulders', label: 'Ombros' },
+    { key: 'arms', label: 'Braços' },
+    { key: 'core', label: 'Core' },
+    { key: 'cardio', label: 'Cardio' },
+  ];
+
+  MARKETPLACE_TRAINERS = [
+    { id: 1, name: 'Ana Ribeiro', specialty: 'Hipertrofia & Emagrecimento', category: 'hipertrofia', rating: '4.9', reviews: 128, price: 'R$ 249', mode: 'Online', bio: 'Especialista em hipertrofia e recomposição corporal, com 8 anos de experiência acompanhando alunos à distância.' },
+    { id: 2, name: 'Bruno Alves', specialty: 'Corrida & Performance', category: 'performance', rating: '4.8', reviews: 94, price: 'R$ 279', mode: 'Presencial', bio: 'Ex-atleta de corrida, foca em melhora de performance e resistência para provas de rua.' },
+    { id: 3, name: 'Camila Duarte', specialty: 'Reabilitação & Mobilidade', category: 'reabilitacao', rating: '5.0', reviews: 61, price: 'R$ 299', mode: 'Online', bio: 'Fisioterapeuta e personal, trabalha reabilitação de lesões e ganho de mobilidade com treinos progressivos.' },
+    { id: 4, name: 'Diego Martins', specialty: 'Funcional & Emagrecimento', category: 'funcional', rating: '4.7', reviews: 152, price: 'R$ 219', mode: 'Online', bio: 'Treinos funcionais dinâmicos focados em queima calórica e condicionamento geral.' },
+  ];
+
+  CHALLENGES = [
+    { id: 1, title: '30 dias de treino', description: 'Complete pelo menos 20 treinos em 30 dias.', participants: 86, daysLeft: 12, goal: 20, current: 13, type: 'Individual', reward: 'Selo "Consistência de Ferro" + 200 pontos',
+      leaderboard: [
+        { rank: 1, name: 'Carla Nogueira', initials: 'CN', score: 19 },
+        { rank: 2, name: 'Marina Souza', initials: 'MS', score: 13 },
+        { rank: 3, name: 'Rafael Lima', initials: 'RL', score: 10 },
+      ] },
+    { id: 2, title: 'Hidratação em dia', description: 'Registre 2L de água por dia durante 2 semanas.', participants: 54, daysLeft: 6, goal: 14, current: 14, type: 'Individual', reward: 'Selo "Sempre Hidratado" + 100 pontos',
+      leaderboard: [
+        { rank: 1, name: 'João Pedro', initials: 'JP', score: 14 },
+        { rank: 2, name: 'Carla Nogueira', initials: 'CN', score: 9 },
+      ] },
+    { id: 3, title: 'Desafio de agachamentos', description: 'Acumule 1000 agachamentos em grupo até o fim do mês.', participants: 132, daysLeft: 20, goal: 1000, current: 0, type: 'Equipe', reward: 'Selo "Força em Equipe" + 300 pontos',
+      leaderboard: [
+        { rank: 1, name: 'Rafael Lima', initials: 'RL', score: 240 },
+        { rank: 2, name: 'Marina Souza', initials: 'MS', score: 180 },
+      ] },
+  ];
+
+  MARKETPLACE_CATEGORIES = [
+    { key: 'all', label: 'Todos' },
+    { key: 'hipertrofia', label: 'Hipertrofia' },
+    { key: 'performance', label: 'Performance' },
+    { key: 'reabilitacao', label: 'Reabilitação' },
+    { key: 'funcional', label: 'Funcional' },
+  ];
+
+  CLIENTS = [
+    { name: 'Marina Souza', initials: 'MS', plan: 'Plano Premium', flagged: false, workout: 'Treino B — Pernas & Glúteos' },
+    { name: 'João Pedro', initials: 'JP', plan: 'Plano Profissional', flagged: true, workout: 'Treino A — Upper Body' },
+    { name: 'Carla Nogueira', initials: 'CN', plan: 'Plano Premium', flagged: false, workout: 'Treino C — Full Body' },
+    { name: 'Rafael Lima', initials: 'RL', plan: 'Plano Básico', flagged: true, workout: 'Treino A — Upper Body' },
+  ];
+
+  CLIENT_TRAINERS = [
+    { id: 1, name: 'Ana Ribeiro', initials: 'AR', subtitle: 'Seu personal principal' },
+    { id: 2, name: 'Bruno Alves', initials: 'BA', subtitle: 'Corrida & Performance' },
+  ];
+
+  CLIENT_TRAINER_CHATS = {
+    1: [
+      { mine: false, text: 'Bom dia Marina! Como foi o treino de ontem?' },
+      { mine: true, text: 'Bom dia Ana! Foi ótimo, consegui aumentar a carga no agachamento' },
+      { mine: false, text: 'Show! Vi aqui, ficou show mesmo 💪' },
+      { mine: true, text: 'Hoje é dia de perna de novo né?' },
+      { mine: false, text: 'Isso, treino B. Bora com tudo!' },
+    ],
+    2: [
+      { mine: false, text: 'Oi Marina! Vi que você se inscreveu no plano de corrida' },
+      { mine: true, text: 'Isso! Quero começar a treinar pra uma prova de 10km' },
+      { mine: false, text: 'Perfeito, vou montar um plano de 8 semanas pra você' },
+    ],
+  };
+
+  TRAINER_CLIENT_CHATS = {
+    0: [
+      { mine: false, text: 'Oi Ana, posso trocar o horário de quinta?' },
+      { mine: true, text: 'Claro! Que horário funciona melhor pra você?' },
+      { mine: false, text: 'Poderia ser 19h?' },
+      { mine: true, text: 'Fechado, já ajustei na agenda' },
+    ],
+    1: [
+      { mine: false, text: 'Ana, hoje não vou conseguir treinar' },
+      { mine: true, text: 'Sem problemas João, remarcamos pra amanhã?' },
+    ],
+  };
+
+  MEALS = [
+    { name: 'Café da manhã', kcal: 420, protein: 24, carbs: 48, fat: 14, items: 'Ovos, aveia, banana' },
+    { name: 'Almoço', kcal: 610, protein: 46, carbs: 62, fat: 18, items: 'Frango, arroz integral, brócolis' },
+    { name: 'Lanche', kcal: 190, protein: 20, carbs: 8, fat: 6, items: 'Whey protein, castanhas' },
+    { name: 'Jantar', kcal: 200, protein: 8, carbs: 12, fat: 4, items: 'Salmão, salada verde' },
+  ];
+
+  NUTRITION_GOALS = { kcal: 2200, protein: 140, carbs: 220, fat: 70, waterCups: 8 };
+
+  NOTIFICATIONS_CLIENT = [
+    { id: 'c1', icon: '📅', title: 'Convite de agendamento', description: 'Ana enviou um convite para sexta-feira às 10:00', time: 'Há 2 horas' },
+    { id: 'c2', icon: '💬', title: 'Nova mensagem', description: 'Ana: "Show! Vi aqui, ficou show mesmo"', time: 'Há 5 horas' },
+    { id: 'c3', icon: '🏆', title: 'Desafio quase concluído', description: 'Você está a 1 treino de completar "30 dias de treino"', time: 'Ontem' },
+    { id: 'c4', icon: '💧', title: 'Lembrete de hidratação', description: 'Você ainda não registrou água hoje', time: 'Ontem' },
+  ];
+
+  NOTIFICATIONS_TRAINER = [
+    { id: 't1', icon: '📋', title: 'Avaliação pendente', description: 'João Pedro está sem treino atualizado esta semana', time: 'Há 1 hora' },
+    { id: 't2', icon: '💬', title: 'Nova mensagem', description: 'Marina Souza enviou uma mensagem no chat', time: 'Há 3 horas' },
+    { id: 't3', icon: '✅', title: 'Treino concluído', description: 'Rafael Lima concluiu o Treino A hoje', time: 'Ontem' },
+  ];
+
+  BILLING_PLANS_TRAINER = [
+    { key: 'basico', name: 'Plano Básico', price: 'R$ 49/mês', description: 'Até 10 clientes' },
+    { key: 'profissional', name: 'Plano Profissional', price: 'R$ 99/mês', description: 'Até 30 clientes' },
+    { key: 'premium', name: 'Plano Premium', price: 'R$ 179/mês', description: 'Clientes ilimitados + recursos avançados' },
+  ];
+
+  BILLING_PLANS_CLIENT = [
+    { key: 'gratis', name: 'Acesso gratuito', price: 'R$ 0', description: 'Quando convidado por um personal' },
+    { key: 'premium', name: 'Plano Premium', price: 'R$ 39/mês', description: 'Acompanhamento individual com recursos completos' },
+  ];
+
+  BILLING_HISTORY = [
+    { date: '01/07/2026', description: 'Assinatura mensal', amount: 'R$ 99,00' },
+    { date: '01/06/2026', description: 'Assinatura mensal', amount: 'R$ 99,00' },
+    { date: '01/05/2026', description: 'Assinatura mensal', amount: 'R$ 99,00' },
+  ];
+
+  WEEKS = [
+    { label: 'S1', v: 70.5 }, { label: 'S2', v: 70.1 }, { label: 'S3', v: 69.6 },
+    { label: 'S4', v: 69.0 }, { label: 'S5', v: 68.7 }, { label: 'S6', v: 68.4 },
+  ];
+
+  WEEK_DAYS = [
+    { short: 'Seg', date: '15' }, { short: 'Ter', date: '16' }, { short: 'Qua', date: '17' },
+    { short: 'Qui', date: '18' }, { short: 'Sex', date: '19' }, { short: 'Sáb', date: '20' }, { short: 'Dom', date: '21' },
+  ];
+
+  BOOKING_SLOT_TIMES = ['07:00', '08:00', '09:00', '10:00', '17:00', '18:00', '19:00', '20:00'];
+  BOOKED_SLOTS = { 0: ['08:00', '18:00'], 3: ['09:00', '18:00'], 4: ['07:00'] };
+
+  TRAINER_WEEK_SESSIONS = {
+    0: [{ time: '09:00', label: 'Marina Souza — Pernas & Glúteos' }, { time: '18:00', label: 'Rafael Lima — Full Body' }],
+    2: [{ time: '17:00', label: 'Carla Nogueira — Full Body' }],
+    3: [
+      { time: '09:00', label: 'Marina Souza — Pernas & Glúteos' },
+      { time: '11:30', label: 'João Pedro — Avaliação física' },
+      { time: '18:00', label: 'Marina Souza — Avaliação física' },
+    ],
+    4: [{ time: '07:00', label: 'Rafael Lima — Upper Body' }],
+  };
+
+  componentWillUnmount() {
+    if (this._timer) clearInterval(this._timer);
+  }
+
+  toggleTheme = () => this.setState(s => ({ theme: s.theme === 'dark' ? 'light' : 'dark' }));
+  togglePendingRole = () => this.setState(s => ({ pendingRole: s.pendingRole === 'client' ? 'trainer' : 'client' }));
+  setPendingRoleClient = () => this.setState({ pendingRole: 'client' });
+  setPendingRoleTrainer = () => this.setState({ pendingRole: 'trainer' });
+  goToSignup = () => this.setState({ screen: 'signup' });
+  goToLogin = () => this.setState({ screen: 'login' });
+  logout = () => this.setState({ screen: 'login', clientTab: 'home', trainerTab: 'dashboard' });
+  enterApp = () => this.setState(s => ({ screen: 'main', role: s.pendingRole }));
+  setRoleClient = () => this.setState({ role: 'client', clientDetailOpen: false });
+  setRoleTrainer = () => this.setState({ role: 'trainer', clientDetailOpen: false });
+  setClientTab = (tab) => this.setState({ clientTab: tab, chatConversationOpen: tab === 'chat' ? false : this.state.chatConversationOpen });
+  setTrainerTab = (tab) => this.setState({ trainerTab: tab, clientDetailOpen: false, chatConversationOpen: tab === 'chat' ? false : this.state.chatConversationOpen });
+  openWorkout = () => this.setState({ workoutOpen: true, currentExerciseIndex: 0 });
+  closeWorkout = () => this.setState({ workoutOpen: false, timerRunning: false, timerSeconds: 0 }, () => {
+    if (this._timer) clearInterval(this._timer);
+  });
+  selectExercise = (i) => this.setState({ currentExerciseIndex: i });
+  toggleExerciseDone = (i, e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    this.setState(s => ({ completed: { ...s.completed, [i]: !s.completed[i] } }));
+  };
+  toggleTimer = () => {
+    this.setState(s => {
+      const running = !s.timerRunning;
+      if (running) {
+        this._timer = setInterval(() => this.setState(s2 => ({ timerSeconds: s2.timerSeconds + 1 })), 1000);
+      } else if (this._timer) {
+        clearInterval(this._timer);
+      }
+      return { timerRunning: running };
+    });
+  };
+  resetTimer = () => {
+    if (this._timer) clearInterval(this._timer);
+    this.setState({ timerSeconds: 0, timerRunning: false });
+  };
+  openClientDetail = (i) => this.setState({ clientDetailOpen: true, selectedClientIndex: i });
+  closeClientDetail = () => this.setState({ clientDetailOpen: false });
+  goToChatFromClient = () => this.setState({ clientDetailOpen: false, trainerTab: 'chat', chatConversationOpen: true, activeTrainerClientIndex: this.state.selectedClientIndex });
+  openChatWithTrainer = (id) => this.setState({ chatConversationOpen: true, activeClientTrainerId: id });
+  openChatWithClient = (i) => this.setState({ chatConversationOpen: true, activeTrainerClientIndex: i });
+  closeChatConversation = () => this.setState({ chatConversationOpen: false });
+  setAgendaDay = (i) => this.setState({ agendaDayIndex: i });
+  setAvailabilityDay = (i) => this.setState({ availabilityDayIndex: i });
+  openBooking = () => this.setState({ bookingOpen: true, bookingDayIndex: 0, bookingSlotKey: null });
+  closeBooking = () => this.setState({ bookingOpen: false });
+  selectBookingDay = (i) => this.setState({ bookingDayIndex: i, bookingSlotKey: null });
+  selectBookingSlot = (time) => this.setState({ bookingSlotKey: time });
+  confirmBooking = () => {
+    const s = this.state;
+    const day = this.WEEK_DAYS[s.bookingDayIndex];
+    if (!day || !s.bookingSlotKey) return;
+    const time = s.bookingSlotKey;
+    this.setState(prev => ({
+      bookingOpen: false,
+      bookingSlotKey: null,
+      clientSessions: [
+        ...prev.clientSessions,
+        { day: day.short.toUpperCase(), date: day.date + '/07', time, type: 'Treino acompanhado', mode: 'Online' },
+      ],
+      bookedSlots: { ...prev.bookedSlots, [s.bookingDayIndex]: [...(prev.bookedSlots[s.bookingDayIndex] || []), time] },
+    }));
+  };
+  setLibraryCategory = (key) => this.setState({ libraryCategory: key });
+  openLibraryDetail = (i) => this.setState({ libraryDetailOpen: true, selectedLibraryIndex: i });
+  closeLibraryDetail = () => this.setState({ libraryDetailOpen: false });
+
+  openTrainerBooking = () => this.setState({ trainerBookingOpen: true, trainerBookingClientIndex: 0, trainerBookingDayIndex: this.state.agendaDayIndex, trainerBookingSlotKey: null });
+  closeTrainerBooking = () => this.setState({ trainerBookingOpen: false });
+  selectTrainerBookingClient = (i) => this.setState({ trainerBookingClientIndex: i });
+  selectTrainerBookingDay = (i) => this.setState({ trainerBookingDayIndex: i, trainerBookingSlotKey: null });
+  selectTrainerBookingSlot = (time) => this.setState({ trainerBookingSlotKey: time });
+  confirmTrainerBooking = () => {
+    const s = this.state;
+    const day = this.WEEK_DAYS[s.trainerBookingDayIndex];
+    const client = this.CLIENTS[s.trainerBookingClientIndex];
+    if (!day || !client || !s.trainerBookingSlotKey) return;
+    const time = s.trainerBookingSlotKey;
+    this.setState(prev => ({
+      trainerBookingOpen: false,
+      trainerBookingSlotKey: null,
+      invites: [
+        ...prev.invites,
+        { id: Date.now(), clientName: client.name, dayIndex: s.trainerBookingDayIndex, day: day.short, date: day.date + '/07', time, type: 'Sessão com personal', status: 'pending' },
+      ],
+    }));
+  };
+  acceptInvite = (id) => {
+    this.setState(prev => {
+      const invite = prev.invites.find(inv => inv.id === id);
+      if (!invite) return null;
+      return {
+        invites: prev.invites.map(inv => inv.id === id ? { ...inv, status: 'accepted' } : inv),
+        clientSessions: [
+          ...prev.clientSessions,
+          { day: invite.day.toUpperCase(), date: invite.date, time: invite.time, type: invite.type, mode: 'Presencial' },
+        ],
+        bookedSlots: { ...prev.bookedSlots, [invite.dayIndex]: [...(prev.bookedSlots[invite.dayIndex] || []), invite.time] },
+      };
+    });
+  };
+  declineInvite = (id) => this.setState(prev => ({ invites: prev.invites.map(inv => inv.id === id ? { ...inv, status: 'declined' } : inv) }));
+  openChallengeDetail = (id) => this.setState({ challengeDetailOpen: true, selectedChallengeId: id });
+  closeChallengeDetail = () => this.setState({ challengeDetailOpen: false });
+  toggleJoinChallenge = (id) => this.setState(prev => ({
+    joinedChallengeIds: prev.joinedChallengeIds.includes(id) ? prev.joinedChallengeIds.filter(x => x !== id) : [...prev.joinedChallengeIds, id],
+  }));
+  setChallengeFilter = (key) => this.setState({ challengeFilter: key });
+  openAddClient = () => this.setState({ addClientOpen: true, newClientName: '', newClientEmail: '', newClientPlan: 'Plano Básico' });
+  closeAddClient = () => this.setState({ addClientOpen: false });
+  setNewClientName = (v) => this.setState({ newClientName: v });
+  setNewClientEmail = (v) => this.setState({ newClientEmail: v });
+  setNewClientPlan = (v) => this.setState({ newClientPlan: v });
+  confirmAddClient = () => {
+    const s = this.state;
+    const name = s.newClientName.trim();
+    if (!name) return;
+    const initials = name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+    this.setState(prev => ({
+      addClientOpen: false,
+      extraClients: [...prev.extraClients, { name, initials, plan: prev.newClientPlan, flagged: false, workout: 'Sem treino atribuído ainda', email: prev.newClientEmail.trim() }],
+    }));
+  };
+  openNewAssessment = () => this.setState({ newAssessmentOpen: true, newAssessmentWeight: '', newAssessmentBodyFat: '', newAssessmentWaist: '', newAssessmentHip: '', newAssessmentNotes: '' });
+  closeNewAssessment = () => this.setState({ newAssessmentOpen: false });
+  setAssessmentField = (field, value) => this.setState({ [field]: value });
+  confirmNewAssessment = () => {
+    const s = this.state;
+    if (!s.newAssessmentWeight.trim()) return;
+    const idx = s.selectedClientIndex;
+    const today = new Date();
+    const dateStr = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + today.getFullYear();
+    const entry = { date: dateStr, weight: s.newAssessmentWeight, bodyFat: s.newAssessmentBodyFat, waist: s.newAssessmentWaist, hip: s.newAssessmentHip, notes: s.newAssessmentNotes };
+    this.setState(prev => ({
+      newAssessmentOpen: false,
+      assessmentsByClient: { ...prev.assessmentsByClient, [idx]: [entry, ...(prev.assessmentsByClient[idx] || [])] },
+    }));
+  };
+  addWaterCup = () => this.setState(prev => ({ waterCups: Math.min(this.NUTRITION_GOALS.waterCups + 4, prev.waterCups + 1) }));
+  removeWaterCup = () => this.setState(prev => ({ waterCups: Math.max(0, prev.waterCups - 1) }));
+  openAddMeal = () => this.setState({ addMealOpen: true, newMealName: '', newMealKcal: '', newMealItems: '' });
+  closeAddMeal = () => this.setState({ addMealOpen: false });
+  setNewMealField = (field, value) => this.setState({ [field]: value });
+  confirmAddMeal = () => {
+    const s = this.state;
+    const name = s.newMealName.trim();
+    const kcal = parseInt(s.newMealKcal, 10);
+    if (!name || !kcal) return;
+    this.setState(prev => ({
+      addMealOpen: false,
+      extraMeals: [...prev.extraMeals, { name, kcal, protein: 0, carbs: 0, fat: 0, items: prev.newMealItems.trim() || 'Sem detalhes' }],
+    }));
+  };
+  openNotifications = () => this.setState({ notificationsOpen: true });
+  closeNotifications = () => this.setState({ notificationsOpen: false });
+  markAllNotificationsRead = () => this.setState({ readNotificationIds: this.NOTIFICATIONS.map(n => n.id) });
+  openBilling = () => this.setState({ billingOpen: true });
+  closeBilling = () => this.setState({ billingOpen: false });
+  selectPlan = (key) => this.setState({ selectedPlanKey: key });
+  setMarketplaceCategory = (key) => this.setState({ marketplaceCategory: key });
+  openTrainerDetail = (id) => this.setState({ marketplaceDetailOpen: true, selectedTrainerId: id });
+  closeTrainerDetail = () => this.setState({ marketplaceDetailOpen: false });
+  requestTrainer = (id) => this.setState(prev => ({ requestedTrainerIds: [...prev.requestedTrainerIds, id] }));
+
+  theme() {
+    const variant = this.props.variant || 'a';
+    const dark = this.state.theme === 'dark';
+    if (variant === 'a') {
+      return dark ? {
+        bg: '#0B1420', frameBg: '#0B1420', card: '#132436', text: '#EAF3F8', textMuted: '#8FA5B5',
+        accent: '#4C8DF6', accent2: '#2FCB7E', accentContrast: '#08131F', border: 'rgba(255,255,255,0.08)',
+        accentSoftBg: 'rgba(76,141,246,0.14)', stripeAlt: '#0e1c2b', badgeBg: '#4C8DF6', badgeText: '#08131F',
+      } : {
+        bg: '#F3F8FB', frameBg: '#F3F8FB', card: '#FFFFFF', text: '#0E1B24', textMuted: '#5D7280',
+        accent: '#2563EB', accent2: '#16A34A', accentContrast: '#FFFFFF', border: 'rgba(15,35,45,0.09)',
+        accentSoftBg: 'rgba(37,99,235,0.08)', stripeAlt: '#eef3f6', badgeBg: '#2563EB', badgeText: '#FFFFFF',
+      };
+    }
+    return dark ? {
+      bg: '#0A1626', frameBg: '#0A1626', card: '#132A3E', text: '#EEF5F7', textMuted: '#8CA3B5',
+      accent: '#3B82F6', accent2: '#22C55E', accentContrast: '#08131F', border: 'rgba(255,255,255,0.08)',
+      accentSoftBg: 'rgba(59,130,246,0.14)', stripeAlt: '#0f2135', badgeBg: '#22C55E', badgeText: '#052e17',
+    } : {
+      bg: '#F2F7F5', frameBg: '#F2F7F5', card: '#FFFFFF', text: '#0F1E2A', textMuted: '#5C7180',
+      accent: '#1D4ED8', accent2: '#059669', accentContrast: '#FFFFFF', border: 'rgba(15,35,45,0.09)',
+      accentSoftBg: 'rgba(29,78,216,0.08)', stripeAlt: '#eef4f1', badgeBg: '#059669', badgeText: '#FFFFFF',
+    };
+  }
+
+  fmtTimer(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const c = this.theme();
+    c.roleClientBg = s.role === 'client' ? c.accent : 'transparent';
+    c.roleClientText = s.role === 'client' ? c.accentContrast : c.textMuted;
+    c.roleTrainerBg = s.role === 'trainer' ? c.accent : 'transparent';
+    c.roleTrainerText = s.role === 'trainer' ? c.accentContrast : c.textMuted;
+    c.pendingClientBg = s.pendingRole === 'client' ? c.accent : 'transparent';
+    c.pendingClientText = s.pendingRole === 'client' ? c.accentContrast : c.textMuted;
+    c.pendingTrainerBg = s.pendingRole === 'trainer' ? c.accent : 'transparent';
+    c.pendingTrainerText = s.pendingRole === 'trainer' ? c.accentContrast : c.textMuted;
+
+    const variant = this.props.variant || 'a';
+    const isClient = s.role === 'client';
+
+    const clients = [...this.CLIENTS, ...s.extraClients].map((cl, i) => ({
+      ...cl,
+      onOpen: () => this.openClientDetail(i),
+    }));
+    const selectedClientBase = clients[s.selectedClientIndex] || clients[0];
+    const selectedClientAssessments = s.assessmentsByClient[s.selectedClientIndex] || [];
+    const selectedClient = { ...selectedClientBase, assessments: selectedClientAssessments, noAssessments: selectedClientAssessments.length === 0 };
+
+    const activeTrainerId = s.activeClientTrainerId || (this.CLIENT_TRAINERS[0] && this.CLIENT_TRAINERS[0].id);
+    const activeClientIdx = s.activeTrainerClientIndex != null ? s.activeTrainerClientIndex : 0;
+    const activeTrainer = this.CLIENT_TRAINERS.find(t => t.id === activeTrainerId) || this.CLIENT_TRAINERS[0];
+    const activeClientForChat = clients[activeClientIdx] || clients[0];
+    const rawChatThread = isClient
+      ? (this.CLIENT_TRAINER_CHATS[activeTrainerId] || [])
+      : (this.TRAINER_CLIENT_CHATS[activeClientIdx] || []);
+    const chatMessages = rawChatThread.map(m => ({
+      text: m.text,
+      justify: m.mine ? 'flex-end' : 'flex-start',
+      bg: m.mine ? c.accent : c.card,
+      color: m.mine ? c.accentContrast : c.text,
+    }));
+
+    const maxW = Math.max(...this.WEEKS.map(w => w.v));
+    const minW = Math.min(...this.WEEKS.map(w => w.v));
+    const weeklyMetrics = this.WEEKS.map(w => ({
+      label: w.label,
+      height: 20 + Math.round(((w.v - minW) / (maxW - minW || 1)) * 70),
+    }));
+
+    const g = this.GOAL;
+    const goal = {
+      ...g,
+      pct: Math.round(Math.min(100, Math.max(0, ((g.startWeight - g.currentWeight) / (g.startWeight - g.targetWeight)) * 100))),
+    };
+
+    const exercises = this.EXERCISES.map((ex, i) => {
+      const done = !!s.completed[i];
+      const current = i === s.currentExerciseIndex;
+      const hasVideo = !!ex.videoUrl;
+      return {
+        ...ex,
+        rowBg: current ? c.accentSoftBg : c.card,
+        checkBg: done ? c.accent2 : 'transparent',
+        checkBorder: done ? c.accent2 : c.border,
+        checkMark: done ? '✓' : '',
+        onSelect: () => this.selectExercise(i),
+        onToggleDone: (e) => this.toggleExerciseDone(i, e),
+        hasVideo,
+        noVideo: !hasVideo,
+        youtubeSearchUrl: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(ex.name + ' como fazer exercício'),
+      };
+    });
+
+    const dark = s.theme === 'dark';
+
+    const acceptedInvitesByDay = {};
+    s.invites.filter(inv => inv.status === 'accepted').forEach(inv => {
+      acceptedInvitesByDay[inv.dayIndex] = acceptedInvitesByDay[inv.dayIndex] || [];
+      acceptedInvitesByDay[inv.dayIndex].push({ time: inv.time, label: inv.clientName + ' — ' + inv.type });
+    });
+    const pendingInvitesByDay = {};
+    s.invites.filter(inv => inv.status === 'pending').forEach(inv => {
+      pendingInvitesByDay[inv.dayIndex] = true;
+    });
+
+    const weekDays = this.WEEK_DAYS.map((wd, i) => {
+      const selected = i === s.agendaDayIndex;
+      return {
+        ...wd,
+        onSelect: () => this.setAgendaDay(i),
+        bg: selected ? c.accentSoftBg : 'transparent',
+        textColor: selected ? c.accent : c.textMuted,
+        hasSessions: !!((this.TRAINER_WEEK_SESSIONS[i] && this.TRAINER_WEEK_SESSIONS[i].length) || acceptedInvitesByDay[i] || pendingInvitesByDay[i]),
+        dotColor: c.accent2,
+      };
+    });
+    const trainerDaySessions = [...(this.TRAINER_WEEK_SESSIONS[s.agendaDayIndex] || []), ...(acceptedInvitesByDay[s.agendaDayIndex] || [])];
+    const selectedDayLabel = (this.WEEK_DAYS[s.agendaDayIndex] ? this.WEEK_DAYS[s.agendaDayIndex].short + ', ' + this.WEEK_DAYS[s.agendaDayIndex].date + '/07' : '');
+
+    const bookingDays = this.WEEK_DAYS.map((wd, i) => {
+      const selected = i === s.bookingDayIndex;
+      return {
+        ...wd,
+        onSelect: () => this.selectBookingDay(i),
+        bg: selected ? c.accent : c.card,
+        textColor: selected ? c.accentContrast : c.textMuted,
+      };
+    });
+    const bookedForDay = s.bookedSlots[s.bookingDayIndex] || [];
+    const bookingSlots = this.BOOKING_SLOT_TIMES.map(time => {
+      const disabled = bookedForDay.includes(time);
+      const selected = s.bookingSlotKey === time;
+      return {
+        time,
+        disabled,
+        onSelect: disabled ? null : () => this.selectBookingSlot(time),
+        bg: disabled ? c.stripeAlt : (selected ? c.accent : c.card),
+        border: disabled ? c.border : (selected ? c.accent : c.border),
+        textColor: disabled ? c.textMuted : (selected ? c.accentContrast : c.text),
+        cursor: disabled ? 'not-allowed' : 'pointer',
+      };
+    });
+
+    const trainerBookingDays = this.WEEK_DAYS.map((wd, i) => {
+      const selected = i === s.trainerBookingDayIndex;
+      return { ...wd, onSelect: () => this.selectTrainerBookingDay(i), bg: selected ? c.accent : c.card, textColor: selected ? c.accentContrast : c.textMuted };
+    });
+    const bookedForTrainerDay = s.bookedSlots[s.trainerBookingDayIndex] || [];
+    const trainerBookingSlots = this.BOOKING_SLOT_TIMES.map(time => {
+      const disabled = bookedForTrainerDay.includes(time);
+      const selected = s.trainerBookingSlotKey === time;
+      return {
+        time,
+        disabled,
+        onSelect: disabled ? null : () => this.selectTrainerBookingSlot(time),
+        bg: disabled ? c.stripeAlt : (selected ? c.accent : c.card),
+        border: disabled ? c.border : (selected ? c.accent : c.border),
+        textColor: disabled ? c.textMuted : (selected ? c.accentContrast : c.text),
+        cursor: disabled ? 'not-allowed' : 'pointer',
+      };
+    });
+    const trainerBookingClients = [...this.CLIENTS, ...s.extraClients].map((cl, i) => {
+      const selected = i === s.trainerBookingClientIndex;
+      return { name: cl.name, onSelect: () => this.selectTrainerBookingClient(i), bg: selected ? c.accent : c.card, border: selected ? c.accent : c.border, textColor: selected ? c.accentContrast : c.text };
+    });
+
+    const marketplaceCategories = this.MARKETPLACE_CATEGORIES.map(cat => {
+      const selected = s.marketplaceCategory === cat.key;
+      return { ...cat, onSelect: () => this.setMarketplaceCategory(cat.key), bg: selected ? c.accent : c.card, border: selected ? c.accent : c.border, textColor: selected ? c.accentContrast : c.text };
+    });
+    const filteredTrainers = this.MARKETPLACE_TRAINERS.filter(t => s.marketplaceCategory === 'all' || t.category === s.marketplaceCategory);
+    const buildTrainerVals = (t) => {
+      const requested = s.requestedTrainerIds.includes(t.id);
+      return {
+        ...t,
+        requested,
+        requestLabel: requested ? 'Solicitação enviada' : 'Solicitar personal',
+        requestBg: requested ? c.textMuted : c.accent,
+        requestCursor: requested ? 'default' : 'pointer',
+        onRequest: requested ? null : () => this.requestTrainer(t.id),
+        onOpen: () => this.openTrainerDetail(t.id),
+      };
+    };
+    const marketplaceTrainers = filteredTrainers.map(buildTrainerVals);
+    const selectedTrainer = buildTrainerVals(this.MARKETPLACE_TRAINERS.find(t => t.id === s.selectedTrainerId) || this.MARKETPLACE_TRAINERS[0]);
+
+    const pendingInvites = s.invites.filter(inv => inv.clientName === 'Marina Souza' && inv.status === 'pending').map(inv => ({
+      ...inv,
+      onAccept: () => this.acceptInvite(inv.id),
+      onDecline: () => this.declineInvite(inv.id),
+    }));
+
+    const availabilityDays = this.WEEK_DAYS.map((wd, i) => {
+      const selected = i === s.availabilityDayIndex;
+      return { ...wd, onSelect: () => this.setAvailabilityDay(i), bg: selected ? c.accentSoftBg : 'transparent', textColor: selected ? c.accent : c.textMuted };
+    });
+    const bookedForAvailabilityDay = s.bookedSlots[s.availabilityDayIndex] || [];
+    const availabilitySlots = this.BOOKING_SLOT_TIMES.map(time => {
+      const busy = bookedForAvailabilityDay.includes(time);
+      return { time, busy, bg: busy ? c.stripeAlt : c.accentSoftBg, textColor: busy ? c.textMuted : c.accent2, statusLabel: busy ? 'Ocupado' : 'Disponível' };
+    });
+
+    const libraryCategories = this.LIBRARY_CATEGORIES.map(cat => {
+      const selected = s.libraryCategory === cat.key;
+      return {
+        ...cat,
+        onSelect: () => this.setLibraryCategory(cat.key),
+        bg: selected ? c.accent : c.card,
+        border: selected ? c.accent : c.border,
+        textColor: selected ? c.accentContrast : c.text,
+      };
+    });
+    const filteredLibrary = this.EXERCISE_LIBRARY.filter(ex => s.libraryCategory === 'all' || ex.muscle === s.libraryCategory);
+    const libraryExercises = filteredLibrary.map((ex, i) => ({
+      ...ex,
+      noVideo: !ex.hasVideo,
+      youtubeSearchUrl: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(ex.name + ' como fazer exercício'),
+      onOpen: () => this.openLibraryDetail(this.EXERCISE_LIBRARY.indexOf(ex)),
+    }));
+    const selectedLibraryEx = (() => {
+      const ex = this.EXERCISE_LIBRARY[s.selectedLibraryIndex] || this.EXERCISE_LIBRARY[0];
+      return { ...ex, noVideo: !ex.hasVideo, youtubeSearchUrl: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(ex.name + ' como fazer exercício') };
+    })();
+    const ICONS = {
+      home: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z',
+      metrics: 'M3 17l6-6 4 4 8-8 M15 7h6v6',
+      chat: 'M4 4h16v12H8l-4 4z',
+      nutrition: 'M12 21c-4-2-7.5-5.5-7.5-10A4.5 4.5 0 0 1 12 6.7 4.5 4.5 0 0 1 19.5 11c0 4.5-3.5 8-7.5 10z M12 6.7V3.5 M9.5 3.8c1 .6 1.5 1.6 1.5 2.9',
+      dashboard: 'M4 4h7v7H4z M13 4h7v4h-7z M13 11h7v9h-7z M4 14h7v6H4z',
+      clients: 'M9 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5 M17 7.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z M15.5 13c2 .3 4.5 1.8 4.5 4.5',
+      agenda: 'M4 6h16v14H4z M4 6h16 M8 3v4 M16 3v4 M8 13h2 M12 13h2 M8 17h2',
+      profile: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 20c0-4 3.5-6.5 8-6.5s8 2.5 8 6.5',
+      library: 'M4 4h5v17H4z M9.5 3h5v18h-5z M15 5h5v16h-5z',
+      marketplace: 'M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M14.5 14.5 20 20',
+      challenges: 'M7 3h10v6a5 5 0 0 1-10 0z M7 5H4v2a3 3 0 0 0 3 3 M17 5h3v2a3 3 0 0 1-3 3 M12 14v3 M9 20h6 M10 17h4v3h-4z',
+    };
+
+    const tabsClient = [
+      { key: 'home', label: 'Início' },
+      { key: 'agenda', label: 'Agenda' },
+      { key: 'marketplace', label: 'Buscar' },
+      { key: 'metrics', label: 'Evolução' },
+      { key: 'challenges', label: 'Desafios' },
+      { key: 'chat', label: 'Chat' },
+      { key: 'nutrition', label: 'Nutrição' },
+      { key: 'profile', label: 'Perfil' },
+    ].map(t => ({
+      label: t.label,
+      onClick: () => this.setClientTab(t.key),
+      textColor: s.clientTab === t.key ? c.accent : c.textMuted,
+      opacity: s.clientTab === t.key ? 1 : 0.55,
+      isDark: dark,
+      iconColor: s.clientTab === t.key ? c.accent : c.textMuted,
+      iconPath: ICONS[t.key],
+      isHome: !dark && t.key === 'home',
+      isMetrics: !dark && t.key === 'metrics',
+      isChat: !dark && t.key === 'chat',
+      isNutrition: !dark && t.key === 'nutrition',
+      isDashboard: false,
+      isClients: false,
+      isAgenda: !dark && t.key === 'agenda',
+      isProfile: !dark && t.key === 'profile',
+      isLibrary: false,
+      isMarketplace: !dark && t.key === 'marketplace',
+      isChallenges: !dark && t.key === 'challenges',
+    }));
+
+    const tabsTrainer = [
+      { key: 'dashboard', label: 'Dashboard' },
+      { key: 'agenda', label: 'Agenda' },
+      { key: 'clients', label: 'Clientes' },
+      { key: 'library', label: 'Biblioteca' },
+      { key: 'chat', label: 'Chat' },
+      { key: 'profile', label: 'Perfil' },
+    ].map(t => ({
+      label: t.label,
+      onClick: () => this.setTrainerTab(t.key),
+      textColor: s.trainerTab === t.key ? c.accent : c.textMuted,
+      opacity: s.trainerTab === t.key ? 1 : 0.55,
+      isDark: dark,
+      iconColor: s.trainerTab === t.key ? c.accent : c.textMuted,
+      iconPath: ICONS[t.key],
+      isHome: false,
+      isMetrics: false,
+      isChat: !dark && t.key === 'chat',
+      isNutrition: false,
+      isDashboard: !dark && t.key === 'dashboard',
+      isClients: !dark && t.key === 'clients',
+      isAgenda: !dark && t.key === 'agenda',
+      isProfile: !dark && t.key === 'profile',
+      isLibrary: !dark && t.key === 'library',
+    }));
+
+    return {
+      c,
+      badgeLabel: variant === 'a' ? '1a' : '1b',
+      variantName: variant === 'a' ? 'Aqua Tech' : 'Lime Bold',
+      themeIcon: s.theme === 'dark' ? '☾' : '☀',
+      isLogin: s.screen === 'login',
+      isSignup: s.screen === 'signup',
+      isMain: s.screen === 'main',
+      pendingRoleLabel: s.pendingRole === 'client' ? 'Sou personal trainer' : 'Sou aluno(a)',
+      setRoleClient: this.setRoleClient,
+      setRoleTrainer: this.setRoleTrainer,
+      toggleTheme: this.toggleTheme,
+      togglePendingRole: this.togglePendingRole,
+      setPendingRoleClient: this.setPendingRoleClient,
+      setPendingRoleTrainer: this.setPendingRoleTrainer,
+      goToSignup: this.goToSignup,
+      goToLogin: this.goToLogin,
+      logout: this.logout,
+      enterApp: this.enterApp,
+      isClientHome: isClient && s.clientTab === 'home',
+      isClientMetrics: isClient && s.clientTab === 'metrics',
+      isNutrition: isClient && s.clientTab === 'nutrition',
+      isClientAgenda: isClient && s.clientTab === 'agenda',
+      isMarketplace: isClient && s.clientTab === 'marketplace',
+      isChallenges: isClient && s.clientTab === 'challenges',
+      isChat: (isClient && s.clientTab === 'chat') || (!isClient && s.trainerTab === 'chat'),
+      isTrainerDashboard: !isClient && s.trainerTab === 'dashboard',
+      isTrainerAgenda: !isClient && s.trainerTab === 'agenda',
+      isTrainerClients: !isClient && s.trainerTab === 'clients',
+      isTrainerLibrary: !isClient && s.trainerTab === 'library',
+      libraryCategories,
+      libraryExercises,
+      libraryDetailOpen: s.libraryDetailOpen,
+      libraryListOpen: !s.libraryDetailOpen,
+      selectedLibraryEx,
+      closeLibraryDetail: this.closeLibraryDetail,
+      marketplaceCategories,
+      marketplaceTrainers,
+      marketplaceDetailOpen: s.marketplaceDetailOpen,
+      marketplaceListOpen: !s.marketplaceDetailOpen,
+      selectedTrainer,
+      closeTrainerDetail: this.closeTrainerDetail,
+      challengeFilters: [
+        { key: 'all', label: 'Todos' },
+        { key: 'joined', label: 'Meus desafios' },
+      ].map(f => {
+        const selected = s.challengeFilter === f.key;
+        return { ...f, onSelect: () => this.setChallengeFilter(f.key), bg: selected ? c.accent : c.card, border: selected ? c.accent : c.border, textColor: selected ? c.accentContrast : c.text };
+      }),
+      challenges: this.CHALLENGES.filter(ch => s.challengeFilter === 'all' || s.joinedChallengeIds.includes(ch.id)).map(ch => {
+        const joined = s.joinedChallengeIds.includes(ch.id);
+        const progressPct = Math.round(Math.min(100, (ch.current / ch.goal) * 100));
+        const completed = joined && progressPct >= 100;
+        return {
+          ...ch,
+          joined,
+          completed,
+          progressPct,
+          progressLabel: ch.current + ' / ' + ch.goal,
+          statusLabel: joined ? (completed ? 'Concluído' : 'Participando') : 'Participar',
+          statusColor: joined ? c.accent2 : c.textMuted,
+          barColor: completed ? c.accent2 : c.accent,
+          onOpen: () => this.openChallengeDetail(ch.id),
+        };
+      }),
+      challengeDetailOpen: s.challengeDetailOpen,
+      challengeListOpen: !s.challengeDetailOpen,
+      selectedChallenge: (() => {
+        const ch = this.CHALLENGES.find(c2 => c2.id === s.selectedChallengeId) || this.CHALLENGES[0];
+        const joined = s.joinedChallengeIds.includes(ch.id);
+        const progressPct = Math.round(Math.min(100, (ch.current / ch.goal) * 100));
+        const completed = joined && progressPct >= 100;
+        return {
+          ...ch,
+          joined,
+          completed,
+          progressPct,
+          progressLabel: ch.current + ' / ' + ch.goal,
+          joinLabel: joined ? 'Sair do desafio' : 'Participar do desafio',
+          joinBg: joined ? c.textMuted : c.accent,
+          onToggleJoin: () => this.toggleJoinChallenge(ch.id),
+          leaderboard: ch.leaderboard.map(lb => ({ ...lb, rowBg: c.card })),
+        };
+      })(),
+      closeChallengeDetail: this.closeChallengeDetail,
+      isProfile: (isClient && s.clientTab === 'profile') || (!isClient && s.trainerTab === 'profile'),
+      profileRoleKey: isClient ? 'client' : 'trainer',
+      profileName: isClient ? 'Marina Souza' : 'Coach Ana',
+      profileTagline: isClient ? 'Aluna desde Jan/2026' : 'Personal trainer certificada',
+      profileEmail: isClient ? 'marina.souza@email.com' : 'ana.coach@email.com',
+      profilePhone: isClient ? '(11) 98888-1234' : '(11) 97777-5678',
+      profilePlanLabel: isClient ? 'Meu plano' : 'Plano da conta',
+      profilePlanDetail: isClient ? 'Plano Premium — acompanhamento com Ana' : 'Plano Profissional — até 30 clientes',
+      chatContactName: isClient ? (activeTrainer ? activeTrainer.name : 'Ana (Personal)') : (activeClientForChat ? activeClientForChat.name : 'Marina Souza'),
+      chatMessages,
+      chatContacts: isClient
+        ? this.CLIENT_TRAINERS.map(t => ({ ...t, onOpen: () => this.openChatWithTrainer(t.id) }))
+        : clients.map((cl, i) => ({ name: cl.name, initials: cl.initials, subtitle: cl.plan, onOpen: () => this.openChatWithClient(i) })),
+      chatConversationOpen: s.chatConversationOpen,
+      chatListOpen: !s.chatConversationOpen,
+      closeChatConversation: this.closeChatConversation,
+      weeklyMetrics,
+      goal,
+      variantId: variant,
+      meals: [...this.MEALS, ...s.extraMeals],
+      clients,
+      clientSessions: s.clientSessions,
+      weekDays,
+      trainerDaySessions,
+      trainerDayEmpty: trainerDaySessions.length === 0,
+      selectedDayLabel,
+      bookingOpen: s.bookingOpen,
+      openBooking: this.openBooking,
+      closeBooking: this.closeBooking,
+      bookingDays,
+      bookingSlots,
+      hasSelectedSlot: !!s.bookingSlotKey,
+      selectedSlotLabel: s.bookingSlotKey ? ((this.WEEK_DAYS[s.bookingDayIndex] || {}).short + ' ' + s.bookingSlotKey) : '',
+      confirmBooking: this.confirmBooking,
+      openTrainerBooking: this.openTrainerBooking,
+      closeTrainerBooking: this.closeTrainerBooking,
+      trainerBookingOpen: s.trainerBookingOpen,
+      trainerBookingClients,
+      trainerBookingDays,
+      trainerBookingSlots,
+      hasSelectedTrainerSlot: !!s.trainerBookingSlotKey,
+      selectedTrainerSlotLabel: s.trainerBookingSlotKey ? ((this.WEEK_DAYS[s.trainerBookingDayIndex] || {}).short + ' ' + s.trainerBookingSlotKey) : '',
+      confirmTrainerBooking: this.confirmTrainerBooking,
+      pendingInvites,
+      hasPendingInvites: pendingInvites.length > 0,
+      availabilityDays,
+      availabilitySlots,
+      clientDetailOpen: s.clientDetailOpen,
+      clientListOpen: !s.clientDetailOpen,
+      selectedClient,
+      closeClientDetail: this.closeClientDetail,
+      goToChatFromClient: this.goToChatFromClient,
+      addClientOpen: s.addClientOpen,
+      openAddClient: this.openAddClient,
+      closeAddClient: this.closeAddClient,
+      newClientName: s.newClientName,
+      newClientEmail: s.newClientEmail,
+      newClientPlan: s.newClientPlan,
+      onNewClientNameChange: (e) => this.setNewClientName(e.target.value),
+      onNewClientEmailChange: (e) => this.setNewClientEmail(e.target.value),
+      newClientPlans: ['Plano Básico', 'Plano Profissional', 'Plano Premium'].map(p => ({
+        label: p,
+        onSelect: () => this.setNewClientPlan(p),
+        bg: s.newClientPlan === p ? c.accent : c.card,
+        border: s.newClientPlan === p ? c.accent : c.border,
+        textColor: s.newClientPlan === p ? c.accentContrast : c.text,
+      })),
+      canConfirmAddClient: s.newClientName.trim().length > 0,
+      confirmAddClient: this.confirmAddClient,
+      newAssessmentOpen: s.newAssessmentOpen,
+      openNewAssessment: this.openNewAssessment,
+      closeNewAssessment: this.closeNewAssessment,
+      newAssessmentWeight: s.newAssessmentWeight,
+      newAssessmentBodyFat: s.newAssessmentBodyFat,
+      newAssessmentWaist: s.newAssessmentWaist,
+      newAssessmentHip: s.newAssessmentHip,
+      newAssessmentNotes: s.newAssessmentNotes,
+      onAssessmentWeightChange: (e) => this.setAssessmentField('newAssessmentWeight', e.target.value),
+      onAssessmentBodyFatChange: (e) => this.setAssessmentField('newAssessmentBodyFat', e.target.value),
+      onAssessmentWaistChange: (e) => this.setAssessmentField('newAssessmentWaist', e.target.value),
+      onAssessmentHipChange: (e) => this.setAssessmentField('newAssessmentHip', e.target.value),
+      onAssessmentNotesChange: (e) => this.setAssessmentField('newAssessmentNotes', e.target.value),
+      canConfirmAssessment: s.newAssessmentWeight.trim().length > 0,
+      confirmNewAssessment: this.confirmNewAssessment,
+      nutrition: (() => {
+        const g = this.NUTRITION_GOALS;
+        const allMeals = [...this.MEALS, ...s.extraMeals];
+        const kcal = allMeals.reduce((sum, m) => sum + (m.kcal || 0), 0);
+        const protein = allMeals.reduce((sum, m) => sum + (m.protein || 0), 0);
+        const carbs = allMeals.reduce((sum, m) => sum + (m.carbs || 0), 0);
+        const fat = allMeals.reduce((sum, m) => sum + (m.fat || 0), 0);
+        const waterDrops = Array.from({ length: Math.max(s.waterCups, g.waterCups) }, (_, i) => ({
+          color: i < s.waterCups ? c.accent : c.border,
+        }));
+        return {
+          kcal, protein, carbs, fat,
+          kcalGoal: g.kcal, proteinGoal: g.protein, carbsGoal: g.carbs, fatGoal: g.fat,
+          kcalPct: Math.round(Math.min(100, (kcal / g.kcal) * 100)),
+          waterCups: s.waterCups, waterGoal: g.waterCups, waterDrops,
+        };
+      })(),
+      addWaterCup: this.addWaterCup,
+      removeWaterCup: this.removeWaterCup,
+      addMealOpen: s.addMealOpen,
+      openAddMeal: this.openAddMeal,
+      closeAddMeal: this.closeAddMeal,
+      newMealName: s.newMealName,
+      newMealKcal: s.newMealKcal,
+      newMealItems: s.newMealItems,
+      onNewMealNameChange: (e) => this.setNewMealField('newMealName', e.target.value),
+      onNewMealKcalChange: (e) => this.setNewMealField('newMealKcal', e.target.value),
+      onNewMealItemsChange: (e) => this.setNewMealField('newMealItems', e.target.value),
+      canConfirmAddMeal: s.newMealName.trim().length > 0 && parseInt(s.newMealKcal, 10) > 0,
+      confirmAddMeal: this.confirmAddMeal,
+      notificationsOpen: s.notificationsOpen,
+      openNotifications: this.openNotifications,
+      closeNotifications: this.closeNotifications,
+      markAllNotificationsRead: this.markAllNotificationsRead,
+      notifications: (isClient ? this.NOTIFICATIONS_CLIENT : this.NOTIFICATIONS_TRAINER).map(n => {
+        const unread = !s.readNotificationIds.includes(n.id);
+        return { ...n, unread, bg: unread ? c.accentSoftBg : c.card };
+      }),
+      noNotifications: (isClient ? this.NOTIFICATIONS_CLIENT : this.NOTIFICATIONS_TRAINER).length === 0,
+      hasUnreadNotifications: (isClient ? this.NOTIFICATIONS_CLIENT : this.NOTIFICATIONS_TRAINER).some(n => !s.readNotificationIds.includes(n.id)),
+      billingOpen: s.billingOpen,
+      openBilling: this.openBilling,
+      closeBilling: this.closeBilling,
+      billing: (() => {
+        const plansSrc = isClient ? this.BILLING_PLANS_CLIENT : this.BILLING_PLANS_TRAINER;
+        const currentKey = s.selectedPlanKey || (isClient ? 'premium' : 'profissional');
+        const current = plansSrc.find(p => p.key === currentKey) || plansSrc[0];
+        return {
+          currentPlanName: current.name,
+          currentPlanPrice: current.price,
+          nextBillingDate: '01/08/2026',
+          plans: plansSrc.map(p => {
+            const isCurrent = p.key === currentKey;
+            return { ...p, isCurrent, canSelect: !isCurrent, bg: isCurrent ? c.accentSoftBg : c.card, border: isCurrent ? c.accent : c.border, onSelect: () => this.selectPlan(p.key) };
+          }),
+          history: this.BILLING_HISTORY,
+        };
+      })(),
+      tabs: isClient ? tabsClient : tabsTrainer,
+      workoutOpen: s.workoutOpen,
+      openWorkout: this.openWorkout,
+      closeWorkout: this.closeWorkout,
+      currentExercise: exercises[s.currentExerciseIndex] || exercises[0],
+      exercises,
+      formattedTimer: this.fmtTimer(s.timerSeconds),
+      timerButtonLabel: s.timerRunning ? 'Pausar' : 'Iniciar',
+      toggleTimer: this.toggleTimer,
+      resetTimer: this.resetTimer,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
