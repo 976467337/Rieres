@@ -36,3 +36,9 @@ func (r *SubscriptionRepository) FindByTrainerID(trainerID uuid.UUID) (*model.Tr
 func (r *SubscriptionRepository) Update(sub *model.TrainerSubscription) error {
 	return r.db.Save(sub).Error
 }
+
+func (r *SubscriptionRepository) ListAll() ([]model.TrainerSubscription, error) {
+	var subs []model.TrainerSubscription
+	err := r.db.Find(&subs).Error
+	return subs, err
+}

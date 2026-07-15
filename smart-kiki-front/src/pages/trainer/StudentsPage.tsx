@@ -88,12 +88,14 @@ export function StudentsPage() {
           <p className="text-sm text-muted-foreground">Você ainda não tem alunos cadastrados.</p>
         )}
         {students?.map((student) => (
-          <Card key={student.id}>
-            <CardContent className="p-3.5">
-              <div className="text-sm font-semibold">{student.name}</div>
-              <div className="text-xs text-muted-foreground">{student.email}</div>
-            </CardContent>
-          </Card>
+          <Link key={student.id} to={`/app/students/${student.id}`}>
+            <Card>
+              <CardContent className="p-3.5">
+                <div className="text-sm font-semibold">{student.name}</div>
+                <div className="text-xs text-muted-foreground">{student.email}</div>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

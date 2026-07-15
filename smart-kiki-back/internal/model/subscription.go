@@ -87,3 +87,8 @@ type SubscriptionResponse struct {
 	VisibleInMarketplace bool      `json:"visible_in_marketplace"`
 	CurrentPeriodStart   time.Time `json:"current_period_start"`
 }
+
+type MarketplaceTrainer struct {
+	User
+	Plan PlanType `json:"plan"`
+}

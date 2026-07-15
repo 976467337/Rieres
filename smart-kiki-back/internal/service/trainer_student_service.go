@@ -45,40 +45,53 @@ func (s *TrainerStudentService) AddStudent(trainerID uuid.UUID, email string) (*
 		return nil, ErrStudentNotFound
 	}
 
-	exists, err := s.trainerStudentRepo.ExistsByTrainerAndStudent(trainerID, student.ID)
-	if err != nil {
-		return nil, err
-	}
-	if exists {
-		return nil, ErrStudentAlreadyLinked
-	}
-
-	sub, err := s.subscriptionRepo.FindByTrainerID(trainerID)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := s.trainerStudentRepo.CountByTrainer(trainerID)
-	if err != nil {
-		return nil, err
-	}
-
-	if limit := model.StudentLimit(sub.Plan); limit != nil && count >= int64(*limit) {
-		return nil, ErrStudentLimitReached
-	}
-
-	link := &model.TrainerStudent{
-		ID:        uuid.New(),
-		TrainerID: trainerID,
-		StudentID: student.ID,
-	}
-	if err := s.trainerStudentRepo.Create(link); err != nil {
+	if err := s.link(trainerID, student.ID); err != nil {
 		return nil, err
 	}
 
 	return student, nil
 }
 
+// RequestTrainer é o mesmo vínculo de AddStudent, mas iniciado pelo aluno a
+// partir do marketplace (busca de personal), em vez do personal por e-mail.
+func (s *TrainerStudentService) RequestTrainer(studentID, trainerID uuid.UUID) error {
+	return s.link(trainerID, studentID)
+}
+
+func (s *TrainerStudentService) link(trainerID, studentID uuid.UUID) error {
+	exists, err := s.trainerStudentRepo.ExistsByTrainerAndStudent(trainerID, studentID)
+	if err != nil {
+		return err
+	}
+	if exists {
+		return ErrStudentAlreadyLinked
+	}
+
+	sub, err := s.subscriptionRepo.FindByTrainerID(trainerID)
+	if err != nil {
+		return err
+	}
+
+	count, err := s.trainerStudentRepo.CountByTrainer(trainerID)
+	if err != nil {
+		return err
+	}
+
+	if limit := model.StudentLimit(sub.Plan); limit != nil && count >= int64(*limit) {
+		return ErrStudentLimitReached
+	}
+
+	return s.trainerStudentRepo.Create(&model.TrainerStudent{
+		ID:        uuid.New(),
+		TrainerID: trainerID,
+		StudentID: studentID,
+	})
+}
+
 func (s *TrainerStudentService) List(trainerID uuid.UUID) ([]model.User, error) {
 	return s.trainerStudentRepo.ListStudentsByTrainer(trainerID)
+}
+
+func (s *TrainerStudentService) ListTrainersForStudent(studentID uuid.UUID) ([]model.User, error) {
+	return s.trainerStudentRepo.ListTrainersByStudent(studentID)
 }

@@ -57,3 +57,15 @@ func (h *TrainerStudentHandler) Add(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, student)
 }
+
+func (h *TrainerStudentHandler) MyTrainers(c *gin.Context) {
+	studentID := c.MustGet(middleware.ContextUserIDKey).(uuid.UUID)
+
+	trainers, err := h.trainerStudentService.ListTrainersForStudent(studentID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load trainers"})
+		return
+	}
+
+	c.JSON(http.StatusOK, trainers)
+}

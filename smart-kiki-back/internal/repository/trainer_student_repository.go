@@ -41,3 +41,13 @@ func (r *TrainerStudentRepository) ListStudentsByTrainer(trainerID uuid.UUID) ([
 		Find(&users).Error
 	return users, err
 }
+
+func (r *TrainerStudentRepository) ListTrainersByStudent(studentID uuid.UUID) ([]model.User, error) {
+	var users []model.User
+	err := r.db.
+		Joins("JOIN trainer_students ON trainer_students.trainer_id = users.id").
+		Where("trainer_students.student_id = ?", studentID).
+		Order("trainer_students.created_at").
+		Find(&users).Error
+	return users, err
+}

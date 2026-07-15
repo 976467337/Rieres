@@ -1,10 +1,20 @@
+import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/stores/auth-store'
+import { listWorkouts } from '@/api/workouts'
 
 export function ClientHomePage() {
   const user = useAuthStore((s) => s.user)
+  const navigate = useNavigate()
   const firstName = user?.name?.split(' ')[0] ?? 'aluno(a)'
+
+  const { data: workouts } = useQuery({
+    queryKey: ['workouts'],
+    queryFn: () => listWorkouts(),
+  })
+  const latestWorkout = workouts?.[0]
 
   return (
     <div className="flex flex-col gap-4 px-4 py-5">
@@ -16,9 +26,18 @@ export function ClientHomePage() {
       <Card className="border-none bg-accent">
         <CardContent className="p-4">
           <div className="text-[11px] font-bold uppercase tracking-wide text-primary">Treino de hoje</div>
-          <div className="mt-1.5 font-heading text-lg font-extrabold">Treino B — Pernas &amp; Glúteos</div>
-          <div className="mt-1 text-sm text-muted-foreground">5 exercícios · ~42 min</div>
-          <Button className="mt-3.5">Iniciar treino</Button>
+          {latestWorkout ? (
+            <>
+              <div className="mt-1.5 font-heading text-lg font-extrabold">{latestWorkout.name}</div>
+              <Button className="mt-3.5" onClick={() => navigate(`/app/workouts/${latestWorkout.id}`)}>
+                Iniciar treino
+              </Button>
+            </>
+          ) : (
+            <div className="mt-1.5 text-sm text-muted-foreground">
+              Nenhum treino atribuído ainda — seu personal vai montar em breve.
+            </div>
+          )}
         </CardContent>
       </Card>
 
